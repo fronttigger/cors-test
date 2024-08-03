@@ -2,19 +2,18 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { GetAccessTokenOutput } from 'cafe24api-client'
+import { useAccessToken } from '../store'
 
 function AuthComponent() {
   const params = useSearchParams()
-  const [accessToken, setAccessToken] = useState<string | null>(null)
+  const { accessToken, setAccessToken } = useAccessToken()
   const [error, setError] = useState<string | null>(null)
 
   const getAccessToken = async (code: string) => {
     try {
       const response = await fetch('/api/token', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ code }),
       })
 
@@ -22,8 +21,18 @@ function AuthComponent() {
         throw new Error('Failed to get access token')
       }
 
-      const data = await response.json()
-      setAccessToken(data.access_token)
+      const data = (await response.json()) as GetAccessTokenOutput
+      const accessToken = data.access_token
+
+      setAccessToken(accessToken)
+
+      const response2 = await fetch('/api/scripttags', {
+        method: 'POST',
+      })
+
+      if (!response2.ok) {
+        throw new Error('Failed to scripttags')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred')
     }
@@ -35,6 +44,7 @@ function AuthComponent() {
     if (typeof code === 'string') {
       getAccessToken(code)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
   if (error) {

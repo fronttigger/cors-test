@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Cafe24AdminAPIClient } from 'cafe24api-client'
 import Auth from 'cafe24api-client/admin/endpoints/auth'
+import Scripttags from 'cafe24api-client/admin/endpoints/scripttags'
 
-const client = new Cafe24AdminAPIClient({
+export const client = new Cafe24AdminAPIClient({
   mallId: 'medicals709',
 })
 
 Cafe24AdminAPIClient.use(Auth)
+Cafe24AdminAPIClient.use(Scripttags)
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,9 +27,10 @@ export async function POST(req: NextRequest) {
 
     client.setAccessToken(tokenResponse.data.access_token)
 
-    return NextResponse.json({ access_token: tokenResponse.data.access_token })
+    return NextResponse.json(tokenResponse.data)
   } catch (error) {
     console.error('Error getting access token:', error)
+
     return NextResponse.json(
       { error: 'Failed to get access token' },
       { status: 500 }
