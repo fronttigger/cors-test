@@ -1,3 +1,5 @@
-;(function () {
-  console.log('짜잔 @@@@@@@@@@@')
-})()
+function hello() {
+  console.log('안녕 @@@@@@@@@@@')
+}
+
+hello()
