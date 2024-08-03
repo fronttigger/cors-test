@@ -4,7 +4,7 @@ import { client } from '../token/route'
 export async function POST(req: NextRequest) {
   try {
     client.createAScriptTag({
-      src: 'https://medicals709.cafe24.com/_wp/js/sample-script.js',
+      src: 'https://cors-test-opal.vercel.app/sample-script.js',
       shop_no: 1,
       skin_no: [3, 4],
       display_location: 'all',
