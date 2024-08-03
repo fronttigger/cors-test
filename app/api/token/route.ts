@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       code,
       client_id: '2QWZnmrfYiZSL70c9jfMzL',
       client_secret: '6ESfbSGfGkhh2fmkx34NkS',
-      redirect_uri: 'https://app-test-zeta.vercel.app/auth',
+      redirect_uri: 'https://cors-test-opal.vercel.app/auth',
     })
 
     client.setAccessToken(tokenResponse.data.access_token)
