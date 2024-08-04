@@ -14,21 +14,19 @@ Cafe24AdminAPIClient.use(Scripttags)
 export async function POST(req: NextRequest) {
   try {
     const { accessToken } = await req.json()
-
     client.setAccessToken(accessToken)
 
-    const response = await client.createAScriptTag({
+    client.createAScriptTag({
       src: 'https://cors-test-opal.vercel.app/sample-script.js',
       shop_no: 1,
       skin_no: [3, 4],
       display_location: 'all',
       integrity:
-        'sha384-rgLh4WWqKLwKOkCJIQyfSoVq8E6WnpOTYmJJhcsO/5SUnMmvDO2BJIkPkLNyg+yH',
+        'sha384-NPHQoqJqlJ/LJucYZFhNBNU1q4Isc0uMDBbIwRZSJcee6K6McWYABxqbX14hsWS+',
     })
 
     return NextResponse.json({
       status: 200,
-      response,
     })
   } catch (error) {
     console.error('Error getting access token:', error)
