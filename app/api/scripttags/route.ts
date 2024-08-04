@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     const { accessToken } = await req.json()
     client.setAccessToken(accessToken)
 
-    client.createAScriptTag({
+    const response = await client.createAScriptTag({
       src: 'https://cors-test-opal.vercel.app/sample-script.js',
       shop_no: 1,
       skin_no: [3, 4],
@@ -25,9 +25,7 @@ export async function POST(req: NextRequest) {
         'sha384-NPHQoqJqlJ/LJucYZFhNBNU1q4Isc0uMDBbIwRZSJcee6K6McWYABxqbX14hsWS+',
     })
 
-    return NextResponse.json({
-      status: 200,
-    })
+    return NextResponse.json(response.data)
   } catch (error) {
     console.error('Error getting access token:', error)
 

@@ -31,7 +31,9 @@ function AuthComponent() {
         body: JSON.stringify({ accessToken }),
       })
 
-      console.log('response2', response2)
+      const dd = await response2.json()
+
+      console.log('test', dd)
 
       if (!response2.ok) {
         throw new Error('Failed to scripttags')
