@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Cafe24AdminAPIClient } from 'cafe24api-client'
 import Auth from 'cafe24api-client/admin/endpoints/auth'
+
 import Scripttags from 'cafe24api-client/admin/endpoints/scripttags'
 
 const client = new Cafe24AdminAPIClient({
