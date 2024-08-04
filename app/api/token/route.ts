@@ -3,7 +3,7 @@ import { Cafe24AdminAPIClient } from 'cafe24api-client'
 import Auth from 'cafe24api-client/admin/endpoints/auth'
 import Scripttags from 'cafe24api-client/admin/endpoints/scripttags'
 
-export const client = new Cafe24AdminAPIClient({
+const client = new Cafe24AdminAPIClient({
   mallId: 'medicals709',
 })
 

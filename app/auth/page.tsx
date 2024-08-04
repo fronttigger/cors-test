@@ -28,6 +28,7 @@ function AuthComponent() {
 
       const response2 = await fetch('/api/scripttags', {
         method: 'POST',
+        body: JSON.stringify({ accessToken }),
       })
 
       if (!response2.ok) {

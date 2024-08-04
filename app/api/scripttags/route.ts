@@ -1,8 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { client } from '../token/route'
+import { Cafe24AdminAPIClient } from 'cafe24api-client'
+import Auth from 'cafe24api-client/admin/endpoints/auth'
+import Scripttags from 'cafe24api-client/admin/endpoints/scripttags'
+
+const client = new Cafe24AdminAPIClient({
+  mallId: 'medicals709',
+})
+
+Cafe24AdminAPIClient.use(Auth)
+Cafe24AdminAPIClient.use(Scripttags)
 
 export async function POST(req: NextRequest) {
   try {
+    const { accessToken } = await req.json()
+
+    client.setAccessToken(accessToken)
+
     client.createAScriptTag({
       src: 'https://cors-test-opal.vercel.app/sample-script.js',
       shop_no: 1,
