@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       skin_no: [3, 4],
       display_location: 'all',
       integrity:
-        'sha384-UttGu98Tj02YSyWJ5yU0dHmx4wisywedBShWqEz+TL3vFOCXdeMWmo6jMVR8IdFo',
+        'sha384-HQHaXxKKqji6b3bBPm5rQG9ZPGe1lw/bReSC2xBP56NrQMzLrYNEQbu/R12UbSR6',
     })
 
     return NextResponse.json({
