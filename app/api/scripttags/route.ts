@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
       src: 'https://cors-test-opal.vercel.app/sample-script.js',
       shop_no: 1,
       skin_no: [3, 4],
-      display_location: 'all',
+      display_location: ['all'],
       integrity:
-        'sha384-NPHQoqJqlJ/LJucYZFhNBNU1q4Isc0uMDBbIwRZSJcee6K6McWYABxqbX14hsWS+',
+        'sha384-rgLh4WWqKLwKOkCJIQyfSoVq8E6WnpOTYmJJhcsO/5SUnMmvDO2BJIkPkLNyg+yH',
     })
 
     return NextResponse.json({
