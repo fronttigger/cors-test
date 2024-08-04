@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     client.setAccessToken(accessToken)
 
-    const response = client.createAScriptTag({
+    const response = await client.createAScriptTag({
       src: 'https://cors-test-opal.vercel.app/sample-script.js',
       shop_no: 1,
       skin_no: [3, 4],
@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
       integrity:
         'sha384-rgLh4WWqKLwKOkCJIQyfSoVq8E6WnpOTYmJJhcsO/5SUnMmvDO2BJIkPkLNyg+yH',
     })
+
+    console.log('아니 제발', response)
 
     return NextResponse.json({
       status: 200,
