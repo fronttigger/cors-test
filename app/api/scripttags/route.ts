@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         'PRODUCT_DETAIL',
       ],
       integrity:
-        'sha384-NPHQoqJqlJ/LJucYZFhNBNU1q4Isc0uMDBbIwRZSJcee6K6McWYABxqbX14hsWS+',
+        'sha384-pHhFKa5PcJIi6iQ/AAdTI69yKJ1nlmqKiZJbuO7I022kkTpmYmPmxqfutURj+rZT',
     })
 
     return NextResponse.json({
