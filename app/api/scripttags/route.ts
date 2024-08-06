@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Cafe24AdminAPIClient } from 'cafe24api-client'
 import Auth from 'cafe24api-client/admin/endpoints/auth'
-
 import Scripttags from 'cafe24api-client/admin/endpoints/scripttags'
 
 const client = new Cafe24AdminAPIClient({
@@ -20,12 +19,7 @@ export async function POST(req: NextRequest) {
       src: 'https://cors-test-opal.vercel.app/sample-script.js',
       shop_no: 1,
       skin_no: [3, 4],
-      display_location: [
-        'MAIN',
-        'MEMBER_JOIN',
-        'PRODUCT_LIST',
-        'PRODUCT_DETAIL',
-      ],
+      display_location: ['PRODUCT_LIST', 'PRODUCT_DETAIL'],
       integrity:
         'sha384-pHhFKa5PcJIi6iQ/AAdTI69yKJ1nlmqKiZJbuO7I022kkTpmYmPmxqfutURj+rZT',
     })
