@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const accessToken = await getAccessToken(code);
+    const accessToken = await getAccessToken(code, "medicals709");
 
     return NextResponse.json({ success: true, accessToken });
   } catch (error) {

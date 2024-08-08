@@ -1,14 +1,23 @@
 import axios from "axios";
 
-export async function getAccessToken(code: string) {
+export async function getAccessToken(code: string, mallId: string) {
   try {
-    const response = await axios.post("https://api.cafe24.com/oauth/token", {
-      grant_type: "authorization_code",
-      code: code,
-      client_id: process.env.NEXT_PUBLIC_CAFE24_CLIENT_ID,
-      client_secret: process.env.NEXT_PUBLIC_CAFE24_CLIENT_SECRET,
-      redirect_uri: process.env.NEXT_PUBLIC_CAFE24_REDIRECT_URI,
-    });
+    const response = await axios.post(
+      `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
+      {
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: process.env.NEXT_PUBLIC_CAFE24_REDIRECT_URI,
+      },
+      {
+        headers: {
+          Authorization: `Basic ${window.btoa(
+            `${process.env.NEXT_PUBLIC_CAFE24_CLIENT_ID}:${process.env.NEXT_PUBLIC_CAFE24_CLIENT_SECRET}`
+          )}`,
+          "Content-Type": "x-www-form-urlencoded",
+        },
+      }
+    );
 
     return response.data.access_token;
   } catch (error) {

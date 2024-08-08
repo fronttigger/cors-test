@@ -1,14 +1,15 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Cafe24Integration() {
+  const params = useSearchParams();
   const [accessToken, setAccessToken] = useState<string>("");
   const [mallId, setMallId] = useState<string>("");
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+    const code = params.get("code");
 
     if (code) {
       fetch(`/api/auth?code=${code}`)
@@ -21,7 +22,7 @@ export default function Cafe24Integration() {
         })
         .catch((error) => console.error("인증 처리 중 에러:", error));
     }
-  }, []);
+  }, [params]);
 
   const addScriptTag = async () => {
     if (accessToken && mallId) {
