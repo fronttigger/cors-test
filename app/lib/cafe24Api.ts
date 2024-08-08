@@ -1,5 +1,16 @@
 import axios from "axios";
 
+import { Cafe24AdminAPIClient } from "cafe24api-client";
+import Auth from "cafe24api-client/admin/endpoints/auth";
+import Scripttags from "cafe24api-client/admin/endpoints/scripttags";
+
+export const adminClient = new Cafe24AdminAPIClient({
+  mallId: "medicals709",
+});
+
+Cafe24AdminAPIClient.use(Auth);
+Cafe24AdminAPIClient.use(Scripttags);
+
 export async function addScriptTag(accessToken: string, mallId: string) {
   try {
     const response = await axios.post(
