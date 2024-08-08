@@ -32,12 +32,6 @@ export default function Cafe24Integration() {
       fetch("/api/auth", {
         method: "POST",
         body: JSON.stringify({ code }),
-        headers: {
-          Authorization: `Basic ${window.btoa(
-            `2QWZnmrfYiZSL70c9jfMzL:6ESfbSGfGkhh2fmkx34NkS`
-          )}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
       })
         .then((response) => response.json())
         .then((data) => {

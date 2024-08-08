@@ -1,23 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAccessToken } from "../../lib/cafe24Api";
+import { adminClient } from "../../lib/cafe24Api";
 
 export async function POST(req: NextRequest) {
-  const { code } = await req.json();
-
   try {
+    const { code } = await req.json();
+
     if (!code) {
-      return NextResponse.json(
-        { error: "Authorization code is missing" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Code is required" }, { status: 400 });
     }
 
-    const accessToken = await getAccessToken(code, "medicals709");
+    const tokenResponse = await adminClient.getAccessToken({
+      code,
+      client_id: "2QWZnmrfYiZSL70c9jfMzL",
+      client_secret: "6ESfbSGfGkhh2fmkx34NkS",
+      redirect_uri: "https://cors-test-opal.vercel.app/auth",
+    });
 
-    return NextResponse.json({ success: true, accessToken });
+    adminClient.setAccessToken(tokenResponse.data.access_token);
+
+    return NextResponse.json(tokenResponse.data);
   } catch (error) {
-    console.error("OAuth 처리 중 에러:", error);
+    console.error("Error getting access token:", error);
 
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to get access token" },
+      { status: 500 }
+    );
   }
 }

@@ -1,30 +1,16 @@
 import axios from "axios";
 
-export async function getAccessToken(code: string, mallId: string) {
-  try {
-    const response = await axios.post(
-      `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
-      {
-        grant_type: "authorization_code",
-        code,
-        redirect_uri: "https://cors-test-opal.vercel.app/auth",
-      },
-      {
-        headers: {
-          Authorization: `Basic ${window.btoa(
-            `2QWZnmrfYiZSL70c9jfMzL:6ESfbSGfGkhh2fmkx34NkS`
-          )}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
+import { NextRequest, NextResponse } from "next/server";
+import { Cafe24AdminAPIClient } from "cafe24api-client";
+import Auth from "cafe24api-client/admin/endpoints/auth";
+import Scripttags from "cafe24api-client/admin/endpoints/scripttags";
 
-    return response.data.access_token;
-  } catch (error) {
-    console.error("OAuth 토큰 획득 실패:", error);
-    throw error;
-  }
-}
+export const adminClient = new Cafe24AdminAPIClient({
+  mallId: "medicals709",
+});
+
+Cafe24AdminAPIClient.use(Auth);
+Cafe24AdminAPIClient.use(Scripttags);
 
 export async function addScriptTag(accessToken: string, mallId: string) {
   try {
