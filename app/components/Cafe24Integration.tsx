@@ -3,12 +3,16 @@
 import { GetAccessTokenOutput } from "cafe24api-client";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { adminClient } from "../lib/cafe24Api";
 
 export default function Cafe24Integration() {
   const params = useSearchParams();
   const [accessToken, setAccessToken] = useState<string>("");
 
   const addScriptTag = async () => {
+    console.log("client", accessToken);
+    console.log("adminClient", adminClient);
+
     try {
       const response = await fetch("/api/scripttags", {
         method: "POST",

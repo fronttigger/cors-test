@@ -4,6 +4,7 @@ import { adminClient } from "../../lib/cafe24Api";
 export async function POST(req: NextRequest) {
   try {
     const { accessToken } = await req.json();
+    console.log("server accessToken", accessToken);
 
     adminClient.setAccessToken(accessToken);
 
