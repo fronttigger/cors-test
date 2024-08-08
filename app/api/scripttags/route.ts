@@ -19,9 +19,9 @@ export async function POST(req: NextRequest) {
         "sha384-LenAMWRJufmjmcvzxQVpaKY01J6tFKejnQVKQBkksNzvAZodIt7MFZI32RUHSkoS",
     });
 
-    console.log("response.data", response.data);
+    console.log("response.data", response.data.scripttag);
 
-    return NextResponse.json(response.data);
+    // return NextResponse.json(response.data.scripttag);
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
 
