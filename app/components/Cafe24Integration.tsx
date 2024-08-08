@@ -1,5 +1,6 @@
 "use client";
 
+import { GetAccessTokenOutput } from "cafe24api-client";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -24,23 +25,32 @@ export default function Cafe24Integration() {
     }
   };
 
+  const getToken = async (code: string) => {
+    try {
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        body: JSON.stringify({ code }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get access token");
+      }
+
+      const data = (await response.json()) as GetAccessTokenOutput;
+      const accessToken = data.access_token;
+
+      setAccessToken(accessToken);
+      setMallId("medicals709");
+    } catch (error) {
+      console.error("인증 처리 중 에러:", error);
+    }
+  };
+
   useEffect(() => {
     const code = params.get("code");
 
     if (code) {
-      fetch("/api/auth", {
-        method: "POST",
-        body: JSON.stringify({ code }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.accessToken) {
-            console.log("data", data);
-            setAccessToken(data.accessToken);
-            setMallId("medicals709");
-          }
-        })
-        .catch((error) => console.error("인증 처리 중 에러:", error));
+      getToken(code);
     }
   }, [params]);
 
