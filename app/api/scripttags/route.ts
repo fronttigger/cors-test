@@ -7,6 +7,7 @@ export async function POST() {
       src: `https://cors-test-opal.vercel.app//sample-script.js`,
       display_location: ["all"],
       skin_no: 1,
+      shop_no: [3, 4],
       integrity:
         "sha384-LenAMWRJufmjmcvzxQVpaKY01J6tFKejnQVKQBkksNzvAZodIt7MFZI32RUHSkoS",
     });
@@ -15,9 +16,6 @@ export async function POST() {
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
 
-    return NextResponse.json(
-      { error: "Failed to add ScriptTag" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

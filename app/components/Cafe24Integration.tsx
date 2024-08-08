@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 export default function Cafe24Integration() {
   const params = useSearchParams();
   const [accessToken, setAccessToken] = useState<string>("");
-  const [mallId, setMallId] = useState<string>("");
 
   const addScriptTag = async () => {
     try {
@@ -37,7 +36,6 @@ export default function Cafe24Integration() {
       const accessToken = data.access_token;
 
       setAccessToken(accessToken);
-      setMallId("medicals709");
     } catch (error) {
       console.error("인증 처리 중 에러:", error);
     }
