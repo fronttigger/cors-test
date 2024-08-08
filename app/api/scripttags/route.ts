@@ -1,10 +1,17 @@
-import { NextResponse } from "next/server";
-import { adminClient } from "../../lib/cafe24Api";
+import { NextRequest, NextResponse } from "next/server";
+import { Cafe24AdminAPIClient } from "cafe24api-client";
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
+    const { accessToken } = await req.json();
+
+    const adminClient = new Cafe24AdminAPIClient({
+      mallId: "medicals709",
+      accessToken,
+    });
+
     const response = await adminClient.createAScriptTag({
-      src: "https://cors-test-opal.vercel.app/sample-script.js",
+      src: `https://cors-test-opal.vercel.app/sample-script.js`,
       display_location: ["all"],
       skin_no: 1,
       shop_no: [3, 4],
