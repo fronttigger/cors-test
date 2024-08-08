@@ -1,19 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAccessToken } from "../../lib/cafe24Api";
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-
-  const code = searchParams.get("code");
-
-  if (!code) {
-    return NextResponse.json(
-      { error: "Authorization code is missing" },
-      { status: 400 }
-    );
-  }
+export async function POST(req: NextRequest) {
+  const { code } = await req.json();
 
   try {
+    if (!code) {
+      return NextResponse.json(
+        { error: "Authorization code is missing" },
+        { status: 400 }
+      );
+    }
+
     const accessToken = await getAccessToken(code, "medicals709");
 
     return NextResponse.json({ success: true, accessToken });

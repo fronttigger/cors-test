@@ -6,7 +6,7 @@ export async function getAccessToken(code: string, mallId: string) {
       `https://${mallId}.cafe24api.com/api/v2/oauth/token`,
       {
         grant_type: "authorization_code",
-        code: code,
+        code,
         redirect_uri: process.env.NEXT_PUBLIC_CAFE24_REDIRECT_URI,
       },
       {

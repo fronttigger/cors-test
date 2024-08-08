@@ -8,11 +8,32 @@ export default function Cafe24Integration() {
   const [accessToken, setAccessToken] = useState<string>("");
   const [mallId, setMallId] = useState<string>("");
 
+  const addScriptTag = async () => {
+    if (accessToken && mallId) {
+      try {
+        const response = await fetch("/api/scripttags", {
+          method: "POST",
+          body: JSON.stringify({ accessToken, mallId }),
+          headers: { "Content-Type": "application/json" },
+        });
+        const result = await response.json();
+
+        console.log("ScriptTag 추가 결과:", result);
+      } catch (error) {
+        console.error("ScriptTag 추가 중 에러:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     const code = params.get("code");
 
     if (code) {
-      fetch(`/api/auth?code=${code}`)
+      fetch("/api/auth", {
+        method: "POST",
+        body: JSON.stringify({ code }),
+        headers: { "Content-Type": "x-www-form-urlencoded" },
+      })
         .then((response) => response.json())
         .then((data) => {
           if (data.accessToken) {
@@ -23,23 +44,6 @@ export default function Cafe24Integration() {
         .catch((error) => console.error("인증 처리 중 에러:", error));
     }
   }, [params]);
-
-  const addScriptTag = async () => {
-    if (accessToken && mallId) {
-      try {
-        const response = await fetch("/api/scripttags", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ accessToken, mallId }),
-        });
-        const result = await response.json();
-
-        console.log("ScriptTag 추가 결과:", result);
-      } catch (error) {
-        console.error("ScriptTag 추가 중 에러:", error);
-      }
-    }
-  };
 
   return (
     <div>
