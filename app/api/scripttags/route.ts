@@ -12,7 +12,7 @@ export async function POST() {
         "sha384-LenAMWRJufmjmcvzxQVpaKY01J6tFKejnQVKQBkksNzvAZodIt7MFZI32RUHSkoS",
     });
 
-    return NextResponse.json(response);
+    return NextResponse.json(response.data);
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
 
