@@ -1,8 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { adminClient } from "../../lib/cafe24Api";
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
+    const { accessToken } = await req.json();
+
+    adminClient.setAccessToken(accessToken);
+
     const response = await adminClient.createAScriptTag({
       src: `https://cors-test-opal.vercel.app//sample-script.js`,
       display_location: ["all"],
