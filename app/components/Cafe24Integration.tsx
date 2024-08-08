@@ -13,6 +13,7 @@ export default function Cafe24Integration() {
     try {
       const response = await fetch("/api/scripttags", {
         method: "POST",
+        body: JSON.stringify({ accessToken }),
       });
       const result = await response.json();
 
