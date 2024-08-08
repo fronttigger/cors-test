@@ -10,12 +10,9 @@ export default function Cafe24Integration() {
   const [accessToken, setAccessToken] = useState<string>("");
 
   const addScriptTag = async () => {
-    adminClient.setAccessToken(accessToken);
-
     try {
       const response = await fetch("/api/scripttags", {
         method: "POST",
-        body: JSON.stringify({ accessToken }),
       });
       const result = await response.json();
 
@@ -37,10 +34,9 @@ export default function Cafe24Integration() {
       }
 
       const data = (await response.json()) as GetAccessTokenOutput;
-      const accessToken = data.access_token;
 
-      setAccessToken(accessToken);
-      adminClient.setAccessToken(accessToken);
+      setAccessToken(data.access_token);
+      adminClient.setAccessToken(data.access_token);
     } catch (error) {
       console.error("인증 처리 중 에러:", error);
     }
