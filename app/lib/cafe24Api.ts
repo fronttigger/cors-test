@@ -14,7 +14,7 @@ export async function getAccessToken(code: string, mallId: string) {
           Authorization: `Basic ${window.btoa(
             `${process.env.NEXT_PUBLIC_CAFE24_CLIENT_ID}:${process.env.NEXT_PUBLIC_CAFE24_CLIENT_SECRET}`
           )}`,
-          "Content-Type": "x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );
