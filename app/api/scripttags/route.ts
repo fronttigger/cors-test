@@ -1,16 +1,23 @@
-import { NextRequest, NextResponse } from "next/server";
-import { addScriptTag } from "../../lib/cafe24Api";
+import { NextResponse } from "next/server";
+import { adminClient } from "../../lib/cafe24Api";
 
-export async function POST(req: NextRequest) {
-  const { accessToken, mallId } = await req.json();
-
+export async function POST() {
   try {
-    const result = await addScriptTag(accessToken, mallId);
+    const response = await adminClient.createAScriptTag({
+      src: `https://cors-test-opal.vercel.app//sample-script.js`,
+      display_location: ["all"],
+      skin_no: 1,
+      integrity:
+        "sha384-LenAMWRJufmjmcvzxQVpaKY01J6tFKejnQVKQBkksNzvAZodIt7MFZI32RUHSkoS",
+    });
 
-    return NextResponse.json(result);
+    return NextResponse.json(response);
   } catch (error) {
-    console.error("ScriptTag 추가 중 에러:", error);
+    console.error("Error to add ScriptTag:", error);
 
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to add ScriptTag" },
+      { status: 500 }
+    );
   }
 }

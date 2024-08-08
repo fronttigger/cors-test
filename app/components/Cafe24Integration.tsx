@@ -10,18 +10,15 @@ export default function Cafe24Integration() {
   const [mallId, setMallId] = useState<string>("");
 
   const addScriptTag = async () => {
-    if (accessToken && mallId) {
-      try {
-        const response = await fetch("/api/scripttags", {
-          method: "POST",
-          body: JSON.stringify({ accessToken, mallId }),
-        });
-        const result = await response.json();
+    try {
+      const response = await fetch("/api/scripttags", {
+        method: "POST",
+      });
+      const result = await response.json();
 
-        console.log("ScriptTag 추가 결과:", result);
-      } catch (error) {
-        console.error("ScriptTag 추가 중 에러:", error);
-      }
+      console.log("ScriptTag 추가 결과:", result);
+    } catch (error) {
+      console.error("ScriptTag 추가 중 에러:", error);
     }
   };
 
