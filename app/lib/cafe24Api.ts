@@ -7,12 +7,12 @@ export async function getAccessToken(code: string, mallId: string) {
       {
         grant_type: "authorization_code",
         code,
-        redirect_uri: process.env.NEXT_PUBLIC_CAFE24_REDIRECT_URI,
+        redirect_uri: "https://cors-test-opal.vercel.app/auth",
       },
       {
         headers: {
           Authorization: `Basic ${window.btoa(
-            `${process.env.NEXT_PUBLIC_CAFE24_CLIENT_ID}:${process.env.NEXT_PUBLIC_CAFE24_CLIENT_SECRET}`
+            `2QWZnmrfYiZSL70c9jfMzL:6ESfbSGfGkhh2fmkx34NkS`
           )}`,
           "Content-Type": "application/x-www-form-urlencoded",
         },
@@ -31,8 +31,8 @@ export async function addScriptTag(accessToken: string, mallId: string) {
     const response = await axios.post(
       `https://${mallId}.cafe24api.com/api/v2/admin/scripttags`,
       {
-        client_id: process.env.NEXT_PUBLIC_CAFE24_CLIENT_ID,
-        src: `${process.env.NEXT_PUBLIC_APP_URL}/sample-script.js`,
+        client_id: "2QWZnmrfYiZSL70c9jfMzL",
+        src: `https://cors-test-opal.vercel.app//sample-script.js`,
         display_location: ["all"],
         // skin_code: [3, 4],
         integrity:
