@@ -14,7 +14,6 @@ export default function Cafe24Integration() {
         const response = await fetch("/api/scripttags", {
           method: "POST",
           body: JSON.stringify({ accessToken, mallId }),
-          headers: { "Content-Type": "application/json" },
         });
         const result = await response.json();
 
@@ -46,14 +45,8 @@ export default function Cafe24Integration() {
 
   return (
     <div>
-      {accessToken ? (
-        <div>
-          <p>인증 완료</p>
-          <button onClick={addScriptTag}>ScriptTag 추가</button>
-        </div>
-      ) : (
-        <p>인증이 필요합니다</p>
-      )}
+      <span>토큰: {accessToken}</span>
+      <button onClick={addScriptTag}>ScriptTag 추가</button>
     </div>
   );
 }
