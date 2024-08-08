@@ -35,6 +35,7 @@ export default function Cafe24Integration() {
         .then((response) => response.json())
         .then((data) => {
           if (data.accessToken) {
+            console.log("data", data);
             setAccessToken(data.accessToken);
             setMallId("medicals709");
           }
