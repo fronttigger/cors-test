@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: "standalone",
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

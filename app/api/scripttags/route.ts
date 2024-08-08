@@ -1,38 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { Cafe24AdminAPIClient } from 'cafe24api-client'
-import Auth from 'cafe24api-client/admin/endpoints/auth'
-import Scripttags from 'cafe24api-client/admin/endpoints/scripttags'
-
-const client = new Cafe24AdminAPIClient({
-  mallId: 'medicals709',
-})
-
-Cafe24AdminAPIClient.use(Auth)
-Cafe24AdminAPIClient.use(Scripttags)
+import { NextRequest, NextResponse } from "next/server";
+import { addScriptTag } from "../../lib/cafe24Api";
 
 export async function POST(req: NextRequest) {
+  const { accessToken, mallId } = await req.json();
+
   try {
-    const { accessToken } = await req.json()
-    client.setAccessToken(accessToken)
+    const result = await addScriptTag(accessToken, mallId);
 
-    client.createAScriptTag({
-      src: 'https://cors-test-opal.vercel.app/sample-script.js',
-      shop_no: 1,
-      skin_no: [3, 4],
-      display_location: ['PRODUCT_LIST', 'PRODUCT_DETAIL'],
-      integrity:
-        'sha384-pHhFKa5PcJIi6iQ/AAdTI69yKJ1nlmqKiZJbuO7I022kkTpmYmPmxqfutURj+rZT',
-    })
-
-    return NextResponse.json({
-      status: 200,
-    })
+    return NextResponse.json(result);
   } catch (error) {
-    console.error('Error getting access token:', error)
+    console.error("ScriptTag 추가 중 에러:", error);
 
     return NextResponse.json(
-      { error: 'Failed to get access token' },
+      { error: "Failed to add ScriptTag" },
       { status: 500 }
-    )
+    );
   }
 }

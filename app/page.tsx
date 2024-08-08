@@ -1,28 +1,10 @@
-'use client'
+import Cafe24Integration from "./components/Cafe24Integration";
 
-import { useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
-
-function App() {
-  const params = useSearchParams()
-
-  useEffect(() => {
-    const mallId = params.get('mall_id')
-
-    if (!mallId) {
-      return
-    }
-
-    const authUrl = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=2QWZnmrfYiZSL70c9jfMzL&state=app_install&redirect_uri=https://cors-test-opal.vercel.app/auth&scope=mall.read_product,mall.write_product`
-    window.location.href = authUrl
-  }, [params])
-
+export default function Home() {
   return (
-    <p>
-      앱실행 완료
-      <a id='token-url'>API 자격증명 얻기</a>
-    </p>
-  )
+    <main>
+      <h1>카페24 앱 플러그인</h1>
+      <Cafe24Integration />
+    </main>
+  );
 }
-
-export default App
