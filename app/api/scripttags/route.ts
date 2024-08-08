@@ -5,13 +5,15 @@ export async function POST(req: NextRequest) {
   try {
     const { accessToken } = await req.json();
 
+    console.log("accessToken:", accessToken);
+
     const adminClient = new Cafe24AdminAPIClient({
       mallId: "medicals709",
       accessToken,
     });
 
     const response = await adminClient.createAScriptTag({
-      src: `https://cors-test-opal.vercel.app//sample-script.js`,
+      src: `https://cors-test-opal.vercel.app/sample-script.js`,
       display_location: ["all"],
       skin_no: 1,
       shop_no: [3, 4],
