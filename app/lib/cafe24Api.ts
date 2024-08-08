@@ -23,10 +23,11 @@ export async function addScriptTag(accessToken: string, mallId: string) {
       `https://${mallId}.cafe24api.com/api/v2/admin/scripttags`,
       {
         client_id: process.env.NEXT_PUBLIC_CAFE24_CLIENT_ID,
-        src: `${process.env.NEXT_PUBLIC_APP_URL}/api/script?shop=${mallId}`,
+        src: `${process.env.NEXT_PUBLIC_APP_URL}/sample-script.js`,
         display_location: ["all"],
         // skin_code: [3, 4],
-        integrity: "sha384-xxxx",
+        integrity:
+          "sha384-+Z7ELJ6WC7UBf56WsfTWBX52KUh0vvqdXhSUCuu+6hXlwE8QygcMCVARPvTCiFCz",
       },
       {
         headers: {
