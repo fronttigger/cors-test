@@ -16,8 +16,6 @@ export async function POST(req: NextRequest) {
       redirect_uri: "https://cors-test-opal.vercel.app/auth",
     });
 
-    adminClient.setAccessToken(tokenResponse.data.access_token);
-
     return NextResponse.json(tokenResponse.data);
   } catch (error) {
     console.error("Error getting access token:", error);
