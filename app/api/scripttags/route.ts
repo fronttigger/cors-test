@@ -7,7 +7,10 @@ export async function POST(req: NextRequest) {
   try {
     const response = await axios.post(
       "https://medicals709.cafe24api.com/api/v2/admin/scripttags",
-      data
+      data,
+      {
+        withCredentials: true,
+      }
     );
 
     console.log("response", response);
