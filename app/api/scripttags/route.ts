@@ -2,19 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 export async function POST(req: NextRequest) {
-  const data = req.json();
-
-  const authorizationHeader = req.headers.get("authorization");
-  const cafe24ApiVersion = req.headers.get("X-Cafe24-Api-Version");
-
   try {
+    const data = await req.json();
+
+    console.log("data", data);
+
+    const Authorization = req.headers.get("Authorization");
+    const cafe24ApiVersion = req.headers.get("X-Cafe24-Api-Version");
+
     const response = await axios.post(
       "https://medicals709.cafe24api.com/api/v2/admin/scripttags",
       data,
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: authorizationHeader,
+          Authorization,
           "X-Cafe24-Api-Version": cafe24ApiVersion,
         },
         withCredentials: true,
