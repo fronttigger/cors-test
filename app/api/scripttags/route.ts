@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await axios.post(
-      "https://medical.cafe24api.com/api/v2/admin/scripttags",
+      "https://medicals709.cafe24api.com/api/v2/admin/scripttags",
       data
     );
 
