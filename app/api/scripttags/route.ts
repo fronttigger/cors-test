@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       accessToken,
     });
 
-    const response = await adminClient.createAScriptTag({
+    adminClient.createAScriptTag({
       src: `https://cors-test-opal.vercel.app/sample-script.js`,
       display_location: ["all"],
       skin_no: 1,
@@ -18,8 +18,6 @@ export async function POST(req: NextRequest) {
       integrity:
         "sha384-LenAMWRJufmjmcvzxQVpaKY01J6tFKejnQVKQBkksNzvAZodIt7MFZI32RUHSkoS",
     });
-
-    console.log("response.data", response.data.scripttag);
 
     // return NextResponse.json(response.data.scripttag);
   } catch (error) {
