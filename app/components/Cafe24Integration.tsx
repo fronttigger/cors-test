@@ -10,7 +10,7 @@ export default function Cafe24Integration() {
   const params = useSearchParams();
   const [accessToken, setAccessToken] = useState<string>("");
 
-  const addScriptTag = async () => {
+  const addScriptTag = async (token: string) => {
     try {
       const response = await axios.post(
         "/api/scripttags",
@@ -25,14 +25,14 @@ export default function Cafe24Integration() {
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
             "X-Cafe24-Api-Version": "2024-06-01",
           },
         }
       );
 
-      console.log("ScriptTag 추가 결과:", response);
+      return response.data;
     } catch (error) {
       console.error("ScriptTag 추가 중 에러:", error);
     }
@@ -53,6 +53,8 @@ export default function Cafe24Integration() {
 
       setAccessToken(data.access_token);
       adminClient.setAccessToken(data.access_token);
+
+      return data.access_token;
     } catch (error) {
       console.error("인증 처리 중 에러:", error);
     }
@@ -62,14 +64,15 @@ export default function Cafe24Integration() {
     const code = params.get("code");
 
     if (code) {
-      getToken(code);
+      getToken(code).then((token) =>
+        addScriptTag(token || "").then((data) => console.log(data))
+      );
     }
   }, [params]);
 
   return (
     <div>
       <span>토큰: {accessToken}</span>
-      <button onClick={addScriptTag}>ScriptTag 추가</button>
     </div>
   );
 }
