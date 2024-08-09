@@ -15,9 +15,12 @@ export default function Cafe24Integration() {
       const response = await fetch("/api/scripttags", {
         method: "POST",
         body: JSON.stringify({
-          scriptTag: {
-            src: `${process.env.NEXT_PUBLIC_APP_URL}/api/script?shop=medicals709`,
-            display_location: "all",
+          shop_no: 1,
+          request: {
+            src: "https://cors-test-opal.vercel.app/sample-script.js",
+            display_location: ["PRODUCT_LIST", "PRODUCT_DETAIL"],
+            exclude_path: ["/product/list.html", "/product/detail.html"],
+            skin_no: [3, 4],
           },
         }),
         headers: {
