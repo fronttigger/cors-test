@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,7 +27,15 @@ export async function POST(req: NextRequest) {
       status: 200,
     });
   } catch (error) {
-    console.error("Error to add ScriptTag:", error);
+    const err = error as AxiosError;
+    console.error("Error to add ScriptTag:", err as AxiosError);
+
+    // 에러 응답 데이터 출력 및 전송
+    if (err.response) {
+      console.error("Response data:", err.response.data);
+      console.error("Response status:", err.response.status);
+      console.error("Response headers:", err.response.headers);
+    }
 
     return NextResponse.json({ error }, { status: 500 });
   }
