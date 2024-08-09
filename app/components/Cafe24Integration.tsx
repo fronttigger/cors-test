@@ -4,6 +4,7 @@ import { GetAccessTokenOutput } from "cafe24api-client";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { adminClient } from "../lib/cafe24Api";
+import axios from "axios";
 
 export default function Cafe24Integration() {
   const params = useSearchParams();
@@ -11,9 +12,9 @@ export default function Cafe24Integration() {
 
   const addScriptTag = async () => {
     try {
-      const response = await fetch("/api/scripttags", {
-        method: "POST",
-        body: JSON.stringify({
+      const response = await axios.post(
+        "/api/scripttags",
+        {
           shop_no: 1,
           request: {
             src: "https://cors-test-opal.vercel.app/sample-script.js",
@@ -21,16 +22,17 @@ export default function Cafe24Integration() {
             exclude_path: ["/product/list.html", "/product/detail.html"],
             skin_no: [3, 4],
           },
-        }),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-          "X-Cafe24-Api-Version": "2024-06-01",
         },
-      });
-      const result = await response.json();
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+            "X-Cafe24-Api-Version": "2024-06-01",
+          },
+        }
+      );
 
-      console.log("ScriptTag 추가 결과:", result);
+      console.log("ScriptTag 추가 결과:", response);
     } catch (error) {
       console.error("ScriptTag 추가 중 에러:", error);
     }
