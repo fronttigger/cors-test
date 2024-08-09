@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    return NextResponse.json(response);
+    return NextResponse.json(response.data);
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
 
