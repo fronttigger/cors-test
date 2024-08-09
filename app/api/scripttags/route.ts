@@ -4,15 +4,13 @@ import axios from "axios";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-
-    console.log("data", data);
-
+    const request = await JSON.parse(data);
     const Authorization = req.headers.get("Authorization");
     const cafe24ApiVersion = req.headers.get("X-Cafe24-Api-Version");
 
     const response = await axios.post(
       "https://medicals709.cafe24api.com/api/v2/admin/scripttags",
-      data,
+      request,
       {
         headers: {
           "Content-Type": "application/json",
