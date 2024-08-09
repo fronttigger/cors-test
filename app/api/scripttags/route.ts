@@ -1,23 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Cafe24AdminAPIClient } from "cafe24api-client";
+import axios from "axios";
 
 export async function POST(req: NextRequest) {
+  const data = req.json();
+
   try {
-    const { accessToken } = await req.json();
-
-    const adminClient = new Cafe24AdminAPIClient({
-      mallId: "medicals709",
-      accessToken,
-    });
-
-    const response = await adminClient.createAScriptTag({
-      src: `https://cors-test-opal.vercel.app/sample-script.js`,
-      display_location: ["all"],
-      skin_no: 1,
-      shop_no: [3, 4],
-      integrity:
-        "sha384-LenAMWRJufmjmcvzxQVpaKY01J6tFKejnQVKQBkksNzvAZodIt7MFZI32RUHSkoS",
-    });
+    const response = await axios.post(
+      "https://medical.cafe24api.com/api/v2/admin/scripttags",
+      data
+    );
 
     console.log("response", response);
 

@@ -13,7 +13,20 @@ export default function Cafe24Integration() {
     try {
       const response = await fetch("/api/scripttags", {
         method: "POST",
-        body: JSON.stringify({ accessToken }),
+        body: JSON.stringify({
+          shop_no: 1,
+          request: {
+            src: "https://cors-test-opal.vercel.app/sample-script.js",
+            display_location: ["PRODUCT_LIST", "PRODUCT_DETAIL"],
+            exclude_path: ["/product/list.html", "/product/detail.html"],
+            skin_no: [3, 4],
+          },
+        }),
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          "X-Cafe24-Api-Version": "2024-06-01",
+        },
       });
       const result = await response.json();
 
