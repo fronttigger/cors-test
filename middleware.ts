@@ -32,6 +32,8 @@ export async function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refresh_token")?.value;
   const response = NextResponse.next();
 
+  console.log("middleware", accessToken);
+
   if (!isServerRoute(path) || isExcludedPath(path)) {
     return NextResponse.next();
   }

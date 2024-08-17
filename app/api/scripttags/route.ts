@@ -8,6 +8,8 @@ export async function POST(req: NextRequest) {
     const authorization = req.headers.get("Authorization");
     const apiVersion = req.headers.get("X-Cafe24-Api-Version");
 
+    console.log("post", authorization);
+
     const response = await axios.post(
       "https://medicals709.cafe24api.com/api/v2/admin/scripttags",
       data,
