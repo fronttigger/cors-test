@@ -10,16 +10,6 @@ function isServerRoute(path: string) {
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  if (isServerRoute(path)) {
-    const response = await handleApiRequest(request);
-
-    return response;
-  }
-
-  return NextResponse.next();
-}
-
-async function handleApiRequest(request: NextRequest) {
   let accessToken = request.cookies.get("access_token")?.value;
 
   let cookiesTest = request.cookies.getAll();
@@ -30,6 +20,16 @@ async function handleApiRequest(request: NextRequest) {
   console.log("middleware accessToken @@@@@@", accessToken);
   console.log("middleware cookiesTest @@@@@@", cookiesTest);
 
+  if (isServerRoute(path)) {
+    const response = await handleApiRequest(request);
+
+    return response;
+  }
+
+  return NextResponse.next();
+}
+
+async function handleApiRequest(request: NextRequest) {
   // 액세스 토큰 검증
   //   if (isTokenExpired(accessToken)) {
   //     const refreshToken = request.cookies.get("refreshToken")?.value;
@@ -60,7 +60,7 @@ async function handleApiRequest(request: NextRequest) {
 
   // 유효한 액세스 토큰이 있는 경우
   const response = NextResponse.next();
-  response.headers.set("Authorization", `Bearer ${accessToken}`);
+  // response.headers.set("Authorization", `Bearer ${accessToken}`);
   return response;
 }
 
