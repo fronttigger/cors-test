@@ -54,7 +54,9 @@ export async function middleware(request: NextRequest) {
   }
 
   if (accessToken) {
+    response.headers.set("Content-Type", `application/json`);
     response.headers.set("Authorization", `Bearer ${accessToken}`);
+    response.headers.set("X-Cafe24-Api-Version", "2024-06-01");
 
     return response;
   }
@@ -80,6 +82,7 @@ export async function middleware(request: NextRequest) {
         maxAge: 14 * 24 * 60 * 60, // 2주 동안 유효
       });
 
+      response.headers.set("Content-Type", `application/json`);
       response.headers.set("Authorization", `Bearer ${accessToken}`);
       response.headers.set("X-Cafe24-Api-Version", "2024-06-01");
 
