@@ -10,7 +10,7 @@ const cookieOptions = {
 
 const allowedOrigin = "https://medicals709.cafe24.com";
 
-export const corsHeaders = {
+const corsHeaders = {
   "Access-Control-Allow-Origin": allowedOrigin,
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers":

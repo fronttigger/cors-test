@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
+const allowedOrigin = "https://medicals709.cafe24.com";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": allowedOrigin,
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers":
+    "Content-Type, Authorization, X-Cafe24-Api-Version",
+  "Access-Control-Allow-Credentials": "true",
+};
+
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
@@ -53,4 +63,11 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ error }, { status: 500 });
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
 }
