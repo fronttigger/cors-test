@@ -4,9 +4,7 @@ import axios from "axios";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    const authorization = req.cookies.get("Authorization")?.value;
-
-    console.log("authorization", authorization);
+    const authorization = req.cookies.get("access_token")?.value;
     const contentType = req.headers.get("Content-Type");
     const apiVersion = req.headers.get("X-Cafe24-Api-Version");
 
@@ -32,10 +30,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const authorization = req.cookies.get("Authorization")?.value;
+  const authorization = req.cookies.get("access_token")?.value;
   const contentType = req.headers.get("Content-Type");
   const apiVersion = req.headers.get("X-Cafe24-Api-Version");
-  console.log("authorization", authorization);
 
   try {
     const response = await axios.get(
