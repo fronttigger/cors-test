@@ -15,12 +15,6 @@ const corsHeaders = {
     "Content-Type, Authorization, X-Cafe24-Api-Version",
 };
 
-function isExcludedPath(path: string): boolean {
-  const excludedPaths = ["/api/auth"];
-
-  return excludedPaths.some((excludedPath) => path.startsWith(excludedPath));
-}
-
 function isServerRoute(path: string): boolean {
   return path.startsWith("/api");
 }
@@ -32,7 +26,7 @@ export async function middleware(request: NextRequest) {
 
   console.log("accessToken", accessToken);
 
-  if (!isServerRoute(path) || isExcludedPath(path)) {
+  if (!isServerRoute(path)) {
     return NextResponse.next();
   }
 
@@ -86,8 +80,6 @@ export async function middleware(request: NextRequest) {
 
       response.headers.set("Authorization", `Bearer ${access_token}`);
       response.headers.set("X-Cafe24-Api-Version", "2024-06-01");
-
-      return response;
     } catch (error) {
       console.error("Failed to refresh access token:", error);
       return NextResponse.redirect("/login");
