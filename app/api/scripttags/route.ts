@@ -3,6 +3,13 @@ import axios from "axios";
 
 const allowedOrigin = "https://medicals709.cafe24.com";
 
+export const corsHeaders = {
+  "Access-Control-Allow-Origin": allowedOrigin,
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers":
+    "Content-Type, Authorization, X-Cafe24-Api-Version",
+};
+
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
@@ -31,7 +38,18 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const accessToken = req.cookies.get("access_token")?.value;
+
+  console.log("api route handler accessToken @@@@", accessToken);
+
+  if (!accessToken) {
+    return NextResponse.json(
+      { error: "Access token is missing" },
+      { status: 401 }
+    );
+  }
+
   try {
     const response = await axios.get(
       "https://medicals709.cafe24api.com/api/v2/admin/scripttags/count",
@@ -45,16 +63,9 @@ export async function GET() {
       }
     );
 
-    return new NextResponse(JSON.stringify(response.data), {
+    return NextResponse.json(response.data, {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": allowedOrigin,
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "Content-Type, Authorization, X-Cafe24-Api-Version",
-        "Access-Control-Allow-Credentials": "true",
-      },
+      headers: corsHeaders,
     });
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
@@ -64,15 +75,8 @@ export async function GET() {
 }
 
 export async function OPTIONS() {
-  return new NextResponse(null, {
+  return NextResponse.json(null, {
     status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": allowedOrigin,
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "Content-Type, Authorization, X-Cafe24-Api-Version",
-      "Access-Control-Allow-Credentials": "true",
-      "Access-Control-Max-Age": "86400",
-    },
+    headers: corsHeaders,
   });
 }

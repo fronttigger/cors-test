@@ -13,7 +13,7 @@ function App() {
       return;
     }
 
-    const authUrl = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=2QWZnmrfYiZSL70c9jfMzL&state=app_install&redirect_uri=https://cors-test-opal.vercel.app/auth&scope=mall.read_product,mall.write_product,mall.read_application,mall.write_application`;
+    const authUrl = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=2QWZnmrfYiZSL70c9jfMzL&state=app_install&redirect_uri=https://cors-test-opal.vercel.app/auth&scope=mall.read_product,mall.write_product,mall.read_application,mall.write_application,mall.read_category,mall.write_category`;
     window.location.href = authUrl;
   }, [params]);
 
