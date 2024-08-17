@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminClient } from "./app/lib/cafe24Api";
 
-const allowedOrigins = ["https://medicals709.cafe24.com"];
-
 const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
@@ -10,7 +8,10 @@ const cookieOptions = {
   path: "/",
 };
 
-const corsHeaders = {
+const allowedOrigin = "https://medicals709.cafe24.com";
+
+export const corsHeaders = {
+  "Access-Control-Allow-Origin": allowedOrigin,
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers":
     "Content-Type, Authorization, X-Cafe24-Api-Version",
@@ -21,35 +22,24 @@ function isServerRoute(path: string): boolean {
 }
 
 export async function middleware(request: NextRequest) {
-  const origin = request.headers.get("origin") ?? "";
-  const isAllowedOrigin = allowedOrigins.includes(origin);
   const isPreflight = request.method === "OPTIONS";
   const path = request.nextUrl.pathname;
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
 
-  if (!isServerRoute(path)) {
-    return NextResponse.next();
-  }
-
   if (isPreflight) {
-    const preflightHeaders = {
-      ...(isAllowedOrigin && { "Access-Control-Allow-Origin": origin }),
-      ...corsHeaders,
-    };
-
-    return NextResponse.json({}, { headers: preflightHeaders });
+    return NextResponse.json({}, { headers: corsHeaders });
   }
 
   const response = NextResponse.next();
 
-  if (isAllowedOrigin) {
-    response.headers.set("Access-Control-Allow-Origin", origin);
-  }
-
   Object.entries(corsHeaders).forEach(([key, value]) => {
-    response.headers.set(key, value);
+    response.headers.append(key, value);
   });
+
+  if (!isServerRoute(path)) {
+    return NextResponse.next();
+  }
 
   if (accessToken) {
     console.log("accessToken if", accessToken);
@@ -93,7 +83,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
