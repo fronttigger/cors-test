@@ -2,15 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 export async function POST(req: NextRequest) {
-  console.log("post", req.cookies.getAll());
-
   try {
     const data = await req.json();
+    const authorization = req.cookies.get("Authorization")?.value;
     const contentType = req.headers.get("Content-Type");
-    const authorization = req.headers.get("Authorization");
     const apiVersion = req.headers.get("X-Cafe24-Api-Version");
-
-    console.log("post", authorization);
 
     const response = await axios.post(
       "https://medicals709.cafe24api.com/api/v2/admin/scripttags",
@@ -34,8 +30,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const authorization = req.cookies.get("Authorization")?.value;
   const contentType = req.headers.get("Content-Type");
-  const authorization = req.headers.get("Authorization");
   const apiVersion = req.headers.get("X-Cafe24-Api-Version");
 
   try {

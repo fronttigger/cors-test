@@ -24,8 +24,6 @@ export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
 
-  console.log("accessToken", accessToken);
-
   if (!isServerRoute(path)) {
     return NextResponse.next();
   }
@@ -61,9 +59,6 @@ export async function middleware(request: NextRequest) {
 
   if (!accessToken && refreshToken) {
     const response = NextResponse.next();
-
-    console.log("if accessToken", accessToken);
-    console.log("if refreshToken", refreshToken);
 
     try {
       const tokenResponse = await adminClient.getAccessTokenUsingRefreshToken({
