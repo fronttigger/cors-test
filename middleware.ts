@@ -22,7 +22,9 @@ export default async function middleware(request: NextRequest) {
 async function handleApiRequest(request: NextRequest) {
   let accessToken = request.cookies.get("accessToken")?.value;
 
-  console.log("middleware accessToken @@@@@@", accessToken);
+  const testAccessToken = cookies().get("accessToken")?.value;
+
+  console.log("middleware accessToken @@@@@@", testAccessToken);
 
   // 액세스 토큰 검증
   //   if (isTokenExpired(accessToken)) {
