@@ -17,8 +17,7 @@ export default function Cafe24Integration() {
           shop_no: 1,
           request: {
             src: "https://cors-test-opal.vercel.app/sample-script.js",
-            display_location: ["ALL"],
-            skin_no: [3, 4],
+            display_location: ["PRODUCT_LIST"],
           },
         }),
         headers: {

@@ -18,11 +18,8 @@ export async function addScriptTag(accessToken: string, mallId: string) {
     const response = await axios.post(
       `https://${mallId}.cafe24api.com/api/v2/admin/scripttags`,
       {
-        src: `https://cors-test-opal.vercel.app//sample-script.js`,
-        display_location: ["all"],
-        // skin_code: [3, 4],
-        integrity:
-          "sha384-vEazbUWAEPBDqwaocPEyHMVV65yuy+RXzVYb6nQ0Mzb1Pdo9E8HaIktc9EsdfqJV",
+        src: `https://cors-test-opal.vercel.app/sample-script.js`,
+        display_location: ["PRODUCT_LIST"],
       },
       {
         headers: {
