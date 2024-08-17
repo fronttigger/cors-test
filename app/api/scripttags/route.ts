@@ -57,7 +57,9 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    return NextResponse.json(response.data);
+    return NextResponse.json(response.data, {
+      headers: corsHeaders,
+    });
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
 
