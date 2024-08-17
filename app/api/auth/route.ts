@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { adminClient } from "../../lib/cafe24Api";
 
 const cookieOptions = {
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     response.cookies.set("access_token", access_token, {
       ...cookieOptions,
-      maxAge: 7200, // 2시간 (7200초) 동안 유효
+      maxAge: 6600, // 1시간 50분 (6600초) 동안 유효
     });
 
     response.cookies.set("refresh_token", refresh_token, {
