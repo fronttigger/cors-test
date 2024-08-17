@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       {
         headers: {
           "Content-Type": contentType,
-          Authorization: authorization,
+          Authorization: `Bearer ${authorization}`,
           "X-Cafe24-Api-Version": apiVersion,
         },
         withCredentials: true,
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
       {
         headers: {
           "Content-Type": contentType,
-          Authorization: authorization,
+          Authorization: `Bearer ${authorization}`,
           "X-Cafe24-Api-Version": apiVersion,
         },
         withCredentials: true,
