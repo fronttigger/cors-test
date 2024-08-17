@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminClient } from "./app/lib/cafe24Api";
 
+const allowedOrigins = ["https://medicals709.cafe24.com"];
+
 const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
@@ -9,7 +11,6 @@ const cookieOptions = {
 };
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "https://medicals709.cafe24.com",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers":
     "Content-Type, Authorization, X-Cafe24-Api-Version",
@@ -20,6 +21,9 @@ function isServerRoute(path: string): boolean {
 }
 
 export async function middleware(request: NextRequest) {
+  const origin = request.headers.get("origin") ?? "";
+  const isAllowedOrigin = allowedOrigins.includes(origin);
+  const isPreflight = request.method === "OPTIONS";
   const path = request.nextUrl.pathname;
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
@@ -28,23 +32,24 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (request.method === "OPTIONS") {
-    const response = NextResponse.next();
-    response.headers.set(
-      "Access-Control-Allow-Origin",
-      corsHeaders["Access-Control-Allow-Origin"]
-    );
-    response.headers.set(
-      "Access-Control-Allow-Methods",
-      corsHeaders["Access-Control-Allow-Methods"]
-    );
-    response.headers.set(
-      "Access-Control-Allow-Headers",
-      corsHeaders["Access-Control-Allow-Headers"]
-    );
+  if (isPreflight) {
+    const preflightHeaders = {
+      ...(isAllowedOrigin && { "Access-Control-Allow-Origin": origin }),
+      ...corsHeaders,
+    };
 
-    return response;
+    return NextResponse.json({}, { headers: preflightHeaders });
   }
+
+  const response = NextResponse.next();
+
+  if (isAllowedOrigin) {
+    response.headers.set("Access-Control-Allow-Origin", origin);
+  }
+
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    response.headers.set(key, value);
+  });
 
   if (accessToken) {
     console.log("accessToken if", accessToken);
