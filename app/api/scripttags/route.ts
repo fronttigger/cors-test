@@ -43,7 +43,8 @@ export async function GET() {
       }
     );
 
-    return NextResponse.json(response.data, {
+    return new Response(response.data, {
+      status: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
