@@ -8,7 +8,6 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers":
     "Content-Type, Authorization, X-Cafe24-Api-Version",
-  "Access-Control-Allow-Credentials": "true",
 };
 
 export async function POST(req: NextRequest) {
@@ -58,6 +57,7 @@ export async function GET(req: NextRequest) {
     );
 
     return NextResponse.json(response.data, {
+      status: 200,
       headers: corsHeaders,
     });
   } catch (error) {
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function OPTIONS() {
-  return new NextResponse(null, {
+  return NextResponse.json(null, {
     status: 204,
     headers: corsHeaders,
   });

@@ -8,34 +8,14 @@ const cookieOptions = {
   path: "/",
 };
 
-const allowedOrigin = "https://medicals709.cafe24.com";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": allowedOrigin,
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers":
-    "Content-Type, Authorization, X-Cafe24-Api-Version",
-};
-
 function isServerRoute(path: string): boolean {
   return path.startsWith("/api");
 }
 
 export async function middleware(request: NextRequest) {
-  const isPreflight = request.method === "OPTIONS";
   const path = request.nextUrl.pathname;
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
-
-  if (isPreflight) {
-    return NextResponse.json({}, { headers: corsHeaders });
-  }
-
-  const response = NextResponse.next();
-
-  Object.entries(corsHeaders).forEach(([key, value]) => {
-    response.headers.append(key, value);
-  });
 
   if (!isServerRoute(path)) {
     return NextResponse.next();
@@ -83,7 +63,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {
