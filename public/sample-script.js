@@ -9,7 +9,6 @@
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer 05EHR6ahJ9tjcEprFm23ED",
           },
         }
       );
