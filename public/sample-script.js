@@ -4,7 +4,7 @@
   async function fetchData() {
     try {
       const response = await fetch(
-        "https://medicals709.cafe24api.com/api/v2/admin/scripttags/count",
+        "https://cors-test-opal.vercel.app/api/scripttags",
         {
           method: "GET",
           headers: {
