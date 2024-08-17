@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 export async function POST(req: NextRequest) {
+  console.log("post", req.cookies.getAll());
+
   try {
     const data = await req.json();
     const contentType = req.headers.get("Content-Type");

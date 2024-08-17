@@ -48,10 +48,10 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  const response = NextResponse.next();
-
   if (accessToken) {
     console.log("accessToken if", accessToken);
+
+    const response = NextResponse.next();
 
     response.headers.set("Authorization", `Bearer ${accessToken}`);
     response.headers.set("X-Cafe24-Api-Version", "2024-06-01");
@@ -60,6 +60,11 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!accessToken && refreshToken) {
+    const response = NextResponse.next();
+
+    console.log("if accessToken", accessToken);
+    console.log("if refreshToken", refreshToken);
+
     try {
       const tokenResponse = await adminClient.getAccessTokenUsingRefreshToken({
         refresh_token: refreshToken,
@@ -68,6 +73,8 @@ export async function middleware(request: NextRequest) {
       });
 
       const { access_token, refresh_token } = tokenResponse.data;
+
+      adminClient.setAccessToken(access_token);
 
       response.cookies.set("access_token", access_token, {
         ...cookieOptions,
@@ -86,7 +93,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {
