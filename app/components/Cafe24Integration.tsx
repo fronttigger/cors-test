@@ -21,9 +21,7 @@ export default function Cafe24Integration() {
           },
         }),
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
-          "X-Cafe24-Api-Version": "2024-06-01",
         },
       });
 

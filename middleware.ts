@@ -16,6 +16,12 @@ const corsHeaders = {
     "Content-Type, Authorization, X-Cafe24-Api-Version",
 };
 
+function isExcludedPath(path: string): boolean {
+  const excludedPaths = ["/api/auth"];
+
+  return excludedPaths.some((excludedPath) => path.startsWith(excludedPath));
+}
+
 function isServerRoute(path: string) {
   return path.startsWith("/api");
 }
@@ -26,7 +32,7 @@ export async function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refresh_token")?.value;
   const response = NextResponse.next();
 
-  if (!isServerRoute(path)) {
+  if (!isServerRoute(path) || isExcludedPath(path)) {
     return NextResponse.next();
   }
 
@@ -87,5 +93,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api/auth|api|_next/static|_next/image|favicon.ico).*)"],
 };
