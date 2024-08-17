@@ -7,7 +7,7 @@ function isServerRoute(path: string) {
   return path.startsWith("/api");
 }
 
-export default async function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   if (isServerRoute(path)) {
@@ -20,11 +20,15 @@ export default async function middleware(request: NextRequest) {
 }
 
 async function handleApiRequest(request: NextRequest) {
-  let accessToken = request.cookies.get("accessToken")?.value;
+  let accessToken = request.cookies.get("access_token")?.value;
 
-  const testAccessToken = cookies().get("accessToken")?.value;
+  let cookiesTest = request.cookies.getAll();
 
-  console.log("middleware accessToken @@@@@@", testAccessToken);
+  const testAccessToken = cookies().get("access_token")?.value;
+
+  console.log("middleware testAccessToken @@@@@@", testAccessToken);
+  console.log("middleware accessToken @@@@@@", accessToken);
+  console.log("middleware cookiesTest @@@@@@", cookiesTest);
 
   // 액세스 토큰 검증
   //   if (isTokenExpired(accessToken)) {
@@ -84,5 +88,5 @@ async function refreshAccessToken(refreshToken: string) {
 }
 
 export const config = {
-  matcher: "/api/:path*",
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
