@@ -24,10 +24,6 @@ async function handleApiRequest(request: NextRequest) {
 
   console.log("middleware accessToken @@@@@@", accessToken);
 
-  if (!accessToken) {
-    return handleUnauthorized(request);
-  }
-
   // 액세스 토큰 검증
   //   if (isTokenExpired(accessToken)) {
   //     const refreshToken = request.cookies.get("refreshToken")?.value;
@@ -83,14 +79,6 @@ async function refreshAccessToken(refreshToken: string) {
   //   return { accessToken: data.accessToken, refreshToken: data.refreshToken };
   // }
   // return null;
-}
-
-function handleUnauthorized(request: NextRequest) {
-  if (request.headers.get("accept")?.includes("application/json")) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  } else {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
 }
 
 export const config = {

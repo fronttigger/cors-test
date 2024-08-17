@@ -25,9 +25,7 @@ export async function POST(req: NextRequest) {
 
     const { access_token, refresh_token } = tokenResponse.data;
 
-    const response = NextResponse.json({
-      message: "Token acquired and stored in cookies",
-    });
+    const response = NextResponse.json({ access_token, refresh_token });
 
     response.cookies.set("access_token", access_token, {
       ...cookieOptions,

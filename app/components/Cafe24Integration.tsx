@@ -44,12 +44,13 @@ export default function Cafe24Integration() {
         throw new Error("Failed to get access token");
       }
 
-      const data = (await response.json()) as GetAccessTokenOutput;
+      const data = (await response.json()) as Pick<
+        GetAccessTokenOutput,
+        "access_token" | "refresh_token"
+      >;
 
       setAccessToken(data.access_token);
       adminClient.setAccessToken(data.access_token);
-
-      return data.access_token;
     } catch (error) {
       console.error("인증 처리 중 에러:", error);
     }
