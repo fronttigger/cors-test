@@ -22,7 +22,7 @@ export async function addScriptTag(accessToken: string, mallId: string) {
         display_location: ["all"],
         // skin_code: [3, 4],
         integrity:
-          "sha384-LenAMWRJufmjmcvzxQVpaKY01J6tFKejnQVKQBkksNzvAZodIt7MFZI32RUHSkoS",
+          "sha384-vEazbUWAEPBDqwaocPEyHMVV65yuy+RXzVYb6nQ0Mzb1Pdo9E8HaIktc9EsdfqJV",
       },
       {
         headers: {
