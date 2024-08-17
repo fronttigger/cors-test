@@ -30,6 +30,8 @@ export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
 
+  console.log("accessToken", accessToken);
+
   if (!isServerRoute(path) || isExcludedPath(path)) {
     return NextResponse.next();
   }
@@ -55,6 +57,8 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   if (accessToken) {
+    console.log("accessToken if", accessToken);
+
     response.headers.set("Authorization", `Bearer ${accessToken}`);
     response.headers.set("X-Cafe24-Api-Version", "2024-06-01");
 
