@@ -3,16 +3,13 @@
 
   async function fetchData() {
     try {
-      const response = await fetch(
-        `https://medicals709.cafe24api.com/api/v2/admin/scripttags/count`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer 05EHR6ahJ9tjcEprFm23ED",
-          },
-        }
-      );
+      const response = await fetch(`/api/count`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer 05EHR6ahJ9tjcEprFm23ED",
+        },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -38,7 +35,7 @@
 })();
 
 (function (CAFE24API) {
-  CAFE24API.get("/api/v2/products/1", function (err, res) {
+  CAFE24API.get("/api/v2/products/3", function (err, res) {
     if (err) {
       // 오류 발생 시 Error 개체입니다.
       // name, message 속성을 확인할 수 있습니다.
