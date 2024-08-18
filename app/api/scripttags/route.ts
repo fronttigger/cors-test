@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function OPTIONS() {
-  const response = NextResponse.json(null, {
+  const response = new NextResponse(null, {
     status: 204,
   });
 

@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
 
-  if (request.method === "OPTION") {
+  if (request.method === "OPTIONS") {
     console.log("preflight request");
 
     const response = NextResponse.next();
