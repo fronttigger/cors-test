@@ -31,10 +31,9 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    return NextResponse.json(response.data);
+    NextResponse.json(response.data);
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
-
     return NextResponse.json({ error }, { status: 500 });
   }
 }
@@ -57,20 +56,29 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    return NextResponse.json(response.data, {
+    const nextResponse = NextResponse.json(response.data, {
       status: 200,
-      headers: corsHeaders,
     });
+
+    Object.entries(corsHeaders).forEach(([key, value]) => {
+      nextResponse.headers.set(key, value);
+    });
+
+    return nextResponse;
   } catch (error) {
     console.error("Error to add ScriptTag:", error);
-
     return NextResponse.json({ error }, { status: 500 });
   }
 }
 
 export async function OPTIONS() {
-  return NextResponse.json(null, {
+  const response = NextResponse.json(null, {
     status: 204,
-    headers: corsHeaders,
   });
+
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    response.headers.set(key, value);
+  });
+
+  return response;
 }
