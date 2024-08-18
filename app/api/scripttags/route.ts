@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
-const allowedOrigin = "https://medicals709.cafe24.com";
-
 const corsHeaders = {
-  "Access-Control-Allow-Origin": allowedOrigin,
+  "Access-Control-Allow-Origin": "https://medicals709.cafe24.com",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers":
     "Content-Type, Authorization, X-Cafe24-Api-Version",
-  "Access-Control-Allow-Credentials": "true",
 };
 
 export async function POST(req: NextRequest) {
@@ -39,8 +36,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const accessToken = req.cookies.get("access_token")?.value;
+
+  console.log("get", accessToken);
   try {
-    const accessToken = req.cookies.get("access_token")?.value;
     const contentType = req.headers.get("Content-Type");
     const apiVersion = req.headers.get("X-Cafe24-Api-Version");
 

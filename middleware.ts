@@ -17,29 +17,6 @@ export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
 
-  if (request.method === "OPTIONS") {
-    console.log("preflight request");
-
-    const response = NextResponse.next();
-    response.headers.set(
-      "Access-Control-Allow-Origin",
-      "https://medicals709.cafe24.com"
-    );
-    response.headers.set(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    response.headers.set(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization, X-Cafe24-Api-Version"
-    );
-    response.headers.set("Access-Control-Allow-Credentials", "true");
-
-    console.log("headers", response.headers);
-
-    return response;
-  }
-
   if (!isServerRoute(path)) {
     return NextResponse.next();
   }
