@@ -3,7 +3,7 @@ import { adminClient } from "../../lib/cafe24Api";
 
 const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  secure: true,
   sameSite: "none" as const,
   path: "/",
 };
