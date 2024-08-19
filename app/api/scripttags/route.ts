@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import axios from 'axios'
 import { adminClient } from '@/app/lib/cafe24Api'
+import { cookies } from 'next/headers'
 
 const cookieOptions = {
   httpOnly: true,
@@ -20,14 +21,13 @@ const corsHeaders = {
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json()
-    let accessToken = req.cookies.get('access_token')?.value
-    const refreshToken = req.cookies.get('refresh_token')?.value
+    const cookieStore = cookies()
+    let accessToken = cookieStore.get('access_token')?.value
+    const refreshToken = cookieStore.get('refresh_token')?.value
     const contentType = req.headers.get('Content-Type')
     const apiVersion = req.headers.get('X-Cafe24-Api-Version')
 
     if (!accessToken && refreshToken) {
-      const response = NextResponse.next()
-
       try {
         const tokenResponse = await adminClient.getAccessTokenUsingRefreshToken(
           {
@@ -37,15 +37,18 @@ export async function POST(req: NextRequest) {
           }
         )
 
+        console.log('tokenResponse', tokenResponse)
+
         const { access_token, refresh_token } = tokenResponse.data
 
+        accessToken = access_token
         adminClient.setAccessToken(access_token)
 
-        response.cookies.set('access_token', access_token, {
+        cookieStore.set('access_token', access_token, {
           ...cookieOptions,
           maxAge: 6600, // 1시간 50분 (6600초) 동안 유효
         })
-        response.cookies.set('refresh_token', refresh_token, {
+        cookieStore.set('refresh_token', refresh_token, {
           ...cookieOptions,
           maxAge: 14 * 24 * 60 * 60, // 2주 동안 유효
         })
@@ -77,14 +80,13 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    let accessToken = req.cookies.get('access_token')?.value
-    const refreshToken = req.cookies.get('refresh_token')?.value
+    const cookieStore = cookies()
+    let accessToken = cookieStore.get('access_token')?.value
+    const refreshToken = cookieStore.get('refresh_token')?.value
     const contentType = req.headers.get('Content-Type')
     const apiVersion = req.headers.get('X-Cafe24-Api-Version')
 
     if (!accessToken && refreshToken) {
-      const response = NextResponse.next()
-
       try {
         const tokenResponse = await adminClient.getAccessTokenUsingRefreshToken(
           {
@@ -94,15 +96,18 @@ export async function GET(req: NextRequest) {
           }
         )
 
+        console.log('tokenResponse', tokenResponse)
+
         const { access_token, refresh_token } = tokenResponse.data
 
+        accessToken = access_token
         adminClient.setAccessToken(access_token)
 
-        response.cookies.set('access_token', access_token, {
+        cookieStore.set('access_token', access_token, {
           ...cookieOptions,
           maxAge: 6600, // 1시간 50분 (6600초) 동안 유효
         })
-        response.cookies.set('refresh_token', refresh_token, {
+        cookieStore.set('refresh_token', refresh_token, {
           ...cookieOptions,
           maxAge: 14 * 24 * 60 * 60, // 2주 동안 유효
         })
