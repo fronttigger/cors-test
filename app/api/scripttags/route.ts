@@ -54,7 +54,6 @@ export async function POST(req: NextRequest) {
         const { access_token, refresh_token } = tokenResponse.data
 
         accessToken = access_token
-        adminClient.setAccessToken(access_token)
 
         cookieStore.set('access_token', access_token, {
           ...cookieOptions,
@@ -114,7 +113,6 @@ export async function GET(req: NextRequest) {
         const { access_token, refresh_token } = tokenResponse.data
 
         accessToken = access_token
-        adminClient.setAccessToken(access_token)
 
         cookieStore.set('access_token', access_token, {
           ...cookieOptions,

@@ -32,7 +32,6 @@ export async function GET() {
         const { access_token, refresh_token } = tokenResponse.data
 
         accessToken = access_token
-        adminClient.setAccessToken(access_token)
 
         return NextResponse.json({ access_token, refresh_token })
       } catch (error) {
