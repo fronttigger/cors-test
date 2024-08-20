@@ -1,50 +1,62 @@
 ;(function () {
-  async function fetchData() {
-    try {
-      // const response = await fetch(
-      //   'https://cors-test-opal.vercel.app/api/category',
-      //   {
-      //     method: 'PUT',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     credentials: 'include',
-      //   }
-      // )
-      const response = await fetch(
-        'https://cors-test-opal.vercel.app/api/token',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
+  var urlParams = new URLSearchParams(window.location.search)
+  var cateNo = urlParams.get('cate_no')
+  var sortDay = urlParams.get('sort_day')
+
+  var periodMap = {
+    '1D': '1D',
+    W: 'W',
+    '7D': '7D',
+    '1M': '1M',
+  }
+
+  var newOptions = [
+    { text: '실시간', value: 'W' },
+    { text: '일간', value: '1D' },
+    { text: '주간', value: '7D' },
+    { text: '월간', value: '1M' },
+  ]
+
+  $('#selArray').empty()
+  $('#selArray').append('<option value="">-정렬방식-</option>')
+
+  $.each(newOptions, function (_, option) {
+    $('#selArray').append(
+      '<option value="' + option.value + '">' + option.text + '</option>'
+    )
+  })
+
+  if (sortDay && periodMap[sortDay]) {
+    $('#selArray').val(sortDay)
+  }
+
+  $('#selArray').on('change', function () {
+    var selectedValue = $(this).val()
+
+    if (cateNo) {
+      var newUrl = `?cate_no=${cateNo}&sort_day=${selectedValue}#Product_ListMenu`
+
+      history.replaceState(null, '', newUrl)
+
+      $.ajax({
+        url: 'https://cors-test-opal.vercel.app/api/category/' + cateNo,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          shop_no: 1,
+          request: {
+            product_display_period: displayPeriod,
           },
-          credentials: 'include',
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      console.log('뭘까', data)
-      return data
-    } catch (error) {
-      console.error('API 호출 중 오류 발생:', error)
+        }),
+        success: function (response) {
+          console.log('API 호출 성공:', response)
+        },
+        error: function (xhr, status, error) {
+          console.log('API 호출 실패:', error)
+        },
+      })
     }
-  }
-
-  if (window.location.pathname.includes('/')) {
-    const button = document.createElement('button')
-    button.textContent = '커스텀 기능'
-    button.onclick = async function () {
-      const result = await fetchData()
-      console.log('result', result)
-    }
-    document.body.appendChild(button)
-  }
-
-  const element = document.getElementById('selArray')
+  })
 })()
 // ;(function (CAFE24API) {
 //   CAFE24API.get('/api/v2/products/3', function (err, res) {
