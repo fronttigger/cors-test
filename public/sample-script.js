@@ -28,6 +28,7 @@
 
   if (sortDay && periodMap[sortDay]) {
     $('#selArray').val(sortDay)
+    updateAPI(cateNo, sortDay)
   }
 
   $('#selArray').on('change', function () {
@@ -38,25 +39,29 @@
 
       history.replaceState(null, '', newUrl)
 
-      $.ajax({
-        url: 'https://cors-test-opal.vercel.app/api/category/' + cateNo,
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify({
-          shop_no: 1,
-          request: {
-            product_display_period: displayPeriod,
-          },
-        }),
-        success: function (response) {
-          console.log('API 호출 성공:', response)
-        },
-        error: function (xhr, status, error) {
-          console.log('API 호출 실패:', error)
-        },
-      })
+      updateAPI(cateNo, selectedValue)
     }
   })
+
+  function updateAPI(cateNo, period) {
+    $.ajax({
+      url: 'https://cors-test-opal.vercel.app/api/category/' + cateNo,
+      type: 'PUT',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        shop_no: 1,
+        request: {
+          product_display_period: period,
+        },
+      }),
+      success: function (response) {
+        console.log('API 호출 성공:', response)
+      },
+      error: function (xhr, status, error) {
+        console.log('API 호출 실패:', error)
+      },
+    })
+  }
 })()
 // ;(function (CAFE24API) {
 //   CAFE24API.get('/api/v2/products/3', function (err, res) {
