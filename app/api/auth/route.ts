@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
     })
 
     const { access_token, refresh_token } = tokenResponse.data
+    adminClient.setAccessToken(access_token)
 
     const response = NextResponse.json({ access_token, refresh_token })
 

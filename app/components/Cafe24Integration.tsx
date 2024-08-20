@@ -48,6 +48,7 @@ export default function Cafe24Integration() {
       >
 
       setAccessToken(data.access_token)
+      adminClient.setAccessToken(data.access_token)
     } catch (error) {
       console.error('인증 처리 중 에러:', error)
     }
