@@ -71,8 +71,28 @@ export async function PUT(
       }
     )
 
-    return NextResponse.json(response.data)
+    const nextResponse = NextResponse.json(response.data, {
+      status: 200,
+    })
+
+    Object.entries(corsHeaders).forEach(([key, value]) => {
+      nextResponse.headers.set(key, value)
+    })
+
+    return nextResponse
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 })
   }
+}
+
+export async function OPTIONS() {
+  const response = new NextResponse(null, {
+    status: 204,
+  })
+
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    response.headers.set(key, value)
+  })
+
+  return response
 }
