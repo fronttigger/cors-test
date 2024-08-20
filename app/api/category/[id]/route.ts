@@ -54,7 +54,6 @@ export async function PUT(
         })
       } catch (error) {
         console.error('Failed to refresh access token:', error)
-        return NextResponse.redirect('/login')
       }
     }
 

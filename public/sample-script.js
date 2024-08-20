@@ -35,10 +35,6 @@
     var selectedValue = $(this).val()
 
     if (cateNo) {
-      var newUrl = `?cate_no=${cateNo}&sort_day=${selectedValue}#Product_ListMenu`
-
-      history.replaceState(null, '', newUrl)
-
       updateAPI(cateNo, selectedValue)
     }
   })
@@ -56,6 +52,10 @@
       }),
       success: function (response) {
         console.log('API 호출 성공:', response)
+        window.location.href =
+          window.origin +
+          window.pathname +
+          `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`
       },
       error: function (xhr, status, error) {
         console.log('API 호출 실패:', error)
