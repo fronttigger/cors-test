@@ -27,6 +27,17 @@ export async function POST(req: NextRequest) {
     const contentType = req.headers.get('Content-Type')
     const apiVersion = req.headers.get('X-Cafe24-Api-Version')
 
+    const tokenResponse = await axios.get('/api/token', {
+      headers: {
+        'Content-Type': contentType,
+        Authorization: `Bearer ${accessToken}`,
+        'X-Cafe24-Api-Version': apiVersion,
+      },
+      withCredentials: true,
+    })
+
+    console.log('tokenResponse.data', tokenResponse.data)
+
     if (!accessToken && refreshToken) {
       try {
         const tokenResponse = await adminClient.getAccessTokenUsingRefreshToken(
@@ -36,8 +47,6 @@ export async function POST(req: NextRequest) {
             client_secret: '6ESfbSGfGkhh2fmkx34NkS',
           }
         )
-
-        console.log('tokenResponse', tokenResponse)
 
         const { access_token, refresh_token } = tokenResponse.data
 
@@ -80,6 +89,9 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const data = await req.json()
+
+    console.log('data', data)
     const cookieStore = cookies()
     let accessToken = cookieStore.get('access_token')?.value
     const refreshToken = cookieStore.get('refresh_token')?.value
@@ -95,8 +107,6 @@ export async function GET(req: NextRequest) {
             client_secret: '6ESfbSGfGkhh2fmkx34NkS',
           }
         )
-
-        console.log('tokenResponse', tokenResponse)
 
         const { access_token, refresh_token } = tokenResponse.data
 

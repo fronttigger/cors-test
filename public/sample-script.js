@@ -2,9 +2,9 @@
   async function fetchData() {
     try {
       const response = await fetch(
-        'https://cors-test-opal.vercel.app/api/scripttags',
+        'https://cors-test-opal.vercel.app/api/category',
         {
-          method: 'GET',
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -33,20 +33,22 @@
     }
     document.body.appendChild(button)
   }
+
+  const element = document.getElementById('selArray')
 })()
-;(function (CAFE24API) {
-  CAFE24API.get('/api/v2/products/3', function (err, res) {
-    if (err) {
-      // 오류 발생 시 Error 개체입니다.
-      // name, message 속성을 확인할 수 있습니다.
-      // res 개체를 통해 상세한 오류메세지 확인이 가능합니다.
-    } else {
-      // TODO
-    }
-  })
-})(
-  CAFE24API.init({
-    client_id: '2QWZnmrfYiZSL70c9jfMzL',
-    version: '2024-06-01',
-  })
-)
+// ;(function (CAFE24API) {
+//   CAFE24API.get('/api/v2/products/3', function (err, res) {
+//     if (err) {
+//       // 오류 발생 시 Error 개체입니다.
+//       // name, message 속성을 확인할 수 있습니다.
+//       // res 개체를 통해 상세한 오류메세지 확인이 가능합니다.
+//     } else {
+//       // TODO
+//     }
+//   })
+// })(
+//   CAFE24API.init({
+//     client_id: '2QWZnmrfYiZSL70c9jfMzL',
+//     version: '2024-06-01',
+//   })
+// )
