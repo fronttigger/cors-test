@@ -40,8 +40,10 @@
   })
 
   function updateAPI(cateNo, period) {
+    var apiUrl = `https://cors-test-opal.vercel.app/api/categories/${cateNo}`
+
     $.ajax({
-      url: 'https://cors-test-opal.vercel.app/api/category/' + cateNo,
+      url: apiUrl,
       type: 'PUT',
       contentType: 'application/json',
       data: JSON.stringify({
