@@ -150,7 +150,6 @@ export async function GET(req: NextRequest) {
 
     return nextResponse
   } catch (error) {
-    console.error('Error to add ScriptTag:', error)
     return NextResponse.json({ error }, { status: 500 })
   }
 }

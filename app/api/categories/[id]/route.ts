@@ -57,6 +57,8 @@ export async function PUT(
       }
     }
 
+    console.log('@?@@??@?@?@?@?@', params.id)
+
     const response = await axios.put(
       `https://medicals709.cafe24api.com/api/v2/admin/categories/${params.id}`,
       data,
