@@ -69,10 +69,11 @@
   }
 
   $('#selArray').on('change', function () {
-    var selectedValue = $(this).val()
+    var selectedValue = $(this).find('option:selected')
+    var period = selectedValue.data('sort')
 
     if (cateNo) {
-      updateAPI(cateNo, selectedValue)
+      updateAPI(cateNo, period)
     }
   })
 })()
