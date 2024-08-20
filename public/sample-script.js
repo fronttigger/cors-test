@@ -13,7 +13,7 @@
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: true,
+      credentials: 'include',
     })
 
     if (response.ok) {
