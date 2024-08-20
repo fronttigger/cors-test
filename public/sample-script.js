@@ -2,30 +2,26 @@
   async function updateAPI(cateNo, period) {
     var apiUrl = `https://cors-test-opal.vercel.app/api/categories/${cateNo}`
 
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'PUT',
-        data: JSON.stringify({
-          shop_no: 1,
-          request: {
-            product_display_period: period,
-          },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
+    const response = await fetch(apiUrl, {
+      method: 'PUT',
+      data: JSON.stringify({
+        shop_no: 1,
+        request: {
+          product_display_period: period,
         },
-        credentials: 'include',
-      })
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: true,
+    })
 
-      if (response.ok) {
-        console.log('API 호출 성공:', response)
-        window.location.href =
-          window.origin +
-          window.pathname +
-          `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`
-      }
-    } catch (error) {
-      console.log('api error', error)
+    if (response.ok) {
+      console.log('API 호출 성공:', response)
+      window.location.href =
+        window.origin +
+        window.pathname +
+        `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`
     }
   }
 
@@ -52,12 +48,19 @@
 
   $.each(newOptions, function (_, option) {
     $('#selArray').append(
-      '<option value="' + option.value + '">' + option.text + '</option>'
+      '<option value="?cate_no=' +
+        cateNo +
+        '&sort_day' +
+        option.value +
+        '#Product_ListMenu">' +
+        option.text +
+        '</option>'
     )
   })
 
   if (sortDay && periodMap[sortDay]) {
     $('#selArray').val(sortDay)
+
     updateAPI(cateNo, sortDay)
   }
 
