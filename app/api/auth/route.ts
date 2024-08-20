@@ -4,7 +4,7 @@ import { adminClient } from '../../lib/cafe24Api'
 const cookieOptions = {
   httpOnly: true,
   secure: true,
-  sameSite: 'lax' as const,
+  sameSite: 'none' as const,
   path: '/',
 }
 
