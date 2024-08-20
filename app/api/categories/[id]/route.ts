@@ -23,6 +23,8 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   console.log('@?@@??@?@?@?@?@', params.id)
+  const data = await req.json()
+  console.log('data', data)
 
   try {
     const data = await req.json()

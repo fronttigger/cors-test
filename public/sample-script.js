@@ -4,7 +4,7 @@
 
     const response = await fetch(apiUrl, {
       method: 'PUT',
-      data: JSON.stringify({
+      body: JSON.stringify({
         shop_no: 1,
         request: {
           product_display_period: period,
