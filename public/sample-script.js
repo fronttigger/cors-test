@@ -26,9 +26,8 @@
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      console.log('뭘까', response)
-
       const data = await response.json()
+      console.log('뭘까', data)
       return data
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error)

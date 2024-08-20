@@ -6,7 +6,7 @@ import { cookies } from 'next/headers'
 const cookieOptions = {
   httpOnly: true,
   secure: true,
-  sameSite: 'none' as const,
+  sameSite: 'lax' as const,
   path: '/',
 }
 
