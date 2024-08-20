@@ -27,14 +27,17 @@ export async function POST(req: NextRequest) {
     const contentType = req.headers.get('Content-Type')
     const apiVersion = req.headers.get('X-Cafe24-Api-Version')
 
-    const tokenResponse = await axios.get('/api/token', {
-      headers: {
-        'Content-Type': contentType,
-        Authorization: `Bearer ${accessToken}`,
-        'X-Cafe24-Api-Version': apiVersion,
-      },
-      withCredentials: true,
-    })
+    const tokenResponse = await axios.get(
+      'https://cors-test-opal.vercel.app/api/token',
+      {
+        headers: {
+          'Content-Type': contentType,
+          Authorization: `Bearer ${accessToken}`,
+          'X-Cafe24-Api-Version': apiVersion,
+        },
+        withCredentials: true,
+      }
+    )
 
     console.log('tokenResponse.data', tokenResponse.data)
 
