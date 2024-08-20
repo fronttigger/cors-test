@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { adminClient } from '../../lib/cafe24Api'
 
 const cookieOptions = {
-  domain: 'https://cors-test-opal.vercel.app/',
   httpOnly: true,
   secure: true,
   sameSite: 'lax' as const,
