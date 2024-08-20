@@ -22,6 +22,8 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  console.log('@?@@??@?@?@?@?@', params.id)
+
   try {
     const data = await req.json()
     const cookieStore = cookies()
@@ -56,8 +58,6 @@ export async function PUT(
         console.error('Failed to refresh access token:', error)
       }
     }
-
-    console.log('@?@@??@?@?@?@?@', params.id)
 
     const response = await axios.put(
       `https://medicals709.cafe24api.com/api/v2/admin/categories/${params.id}`,
