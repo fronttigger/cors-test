@@ -39,30 +39,30 @@
     }
   })
 
-  function updateAPI(cateNo, period) {
+  async function updateAPI(cateNo, period) {
     var apiUrl = `https://cors-test-opal.vercel.app/api/categories/${cateNo}`
 
-    $.ajax({
-      url: apiUrl,
-      type: 'PUT',
-      contentType: 'application/json',
+    const response = await fetch(apiUrl, {
+      method: 'PUT',
       data: JSON.stringify({
         shop_no: 1,
         request: {
           product_display_period: period,
         },
       }),
-      success: function (response) {
-        console.log('API 호출 성공:', response)
-        window.location.href =
-          window.origin +
-          window.pathname +
-          `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`
+      headers: {
+        'Content-Type': 'application/json',
       },
-      error: function (xhr, status, error) {
-        console.log('API 호출 실패:', error)
-      },
+      credentials: true,
     })
+
+    if (response.ok) {
+      console.log('API 호출 성공:', response)
+      window.location.href =
+        window.origin +
+        window.pathname +
+        `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`
+    }
   }
 })()
 // ;(function (CAFE24API) {
