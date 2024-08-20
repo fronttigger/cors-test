@@ -1,4 +1,34 @@
 ;(function () {
+  async function updateAPI(cateNo, period) {
+    var apiUrl = `https://cors-test-opal.vercel.app/api/categories/${cateNo}`
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        data: JSON.stringify({
+          shop_no: 1,
+          request: {
+            product_display_period: period,
+          },
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: true,
+      })
+
+      if (response.ok) {
+        console.log('API 호출 성공:', response)
+        window.location.href =
+          window.origin +
+          window.pathname +
+          `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`
+      }
+    } catch (error) {
+      console.log('api error', error)
+    }
+  }
+
   var urlParams = new URLSearchParams(window.location.search)
   var cateNo = urlParams.get('cate_no')
   var sortDay = urlParams.get('sort_day')
@@ -38,32 +68,6 @@
       updateAPI(cateNo, selectedValue)
     }
   })
-
-  async function updateAPI(cateNo, period) {
-    var apiUrl = `https://cors-test-opal.vercel.app/api/categories/${cateNo}`
-
-    const response = await fetch(apiUrl, {
-      method: 'PUT',
-      data: JSON.stringify({
-        shop_no: 1,
-        request: {
-          product_display_period: period,
-        },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: true,
-    })
-
-    if (response.ok) {
-      console.log('API 호출 성공:', response)
-      window.location.href =
-        window.origin +
-        window.pathname +
-        `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`
-    }
-  }
 })()
 // ;(function (CAFE24API) {
 //   CAFE24API.get('/api/v2/products/3', function (err, res) {
