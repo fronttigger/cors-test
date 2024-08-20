@@ -48,9 +48,11 @@
 
   $.each(newOptions, function (_, option) {
     $('#selArray').append(
-      '<option value="?cate_no=' +
+      '<option data-sort="' +
+        option.value +
+        '"value="?cate_no=' +
         cateNo +
-        '&sort_day' +
+        '&sort_day=' +
         option.value +
         '#Product_ListMenu">' +
         option.text +
@@ -59,7 +61,9 @@
   })
 
   if (sortDay && periodMap[sortDay]) {
-    $('#selArray').val(sortDay)
+    $('#selArray').val(
+      '?cate_no=' + cateNo + '&sort_day=' + sortDay + '#Product_ListMenu'
+    )
 
     updateAPI(cateNo, sortDay)
   }
