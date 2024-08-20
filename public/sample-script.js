@@ -1,10 +1,20 @@
 ;(function () {
   async function fetchData() {
     try {
+      // const response = await fetch(
+      //   'https://cors-test-opal.vercel.app/api/category',
+      //   {
+      //     method: 'PUT',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     credentials: 'include',
+      //   }
+      // )
       const response = await fetch(
-        'https://cors-test-opal.vercel.app/api/category',
+        'https://cors-test-opal.vercel.app/api/token',
         {
-          method: 'PUT',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -16,11 +26,12 @@
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
+      console.log('뭘까', response)
+
       const data = await response.json()
       return data
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error)
-      throw error
     }
   }
 

@@ -17,6 +17,8 @@ export async function GET() {
     let accessToken = cookieStore.get('access_token')?.value
     const refreshToken = cookieStore.get('refresh_token')?.value
 
+    console.log('token api response', { accessToken, refreshToken })
+
     if (!accessToken && refreshToken) {
       try {
         const tokenResponse = await adminClient.getAccessTokenUsingRefreshToken(
