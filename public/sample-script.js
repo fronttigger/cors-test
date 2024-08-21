@@ -1,38 +1,4 @@
 (function () {
-  async function fetchData() {
-    try {
-      const response = await fetch(
-        "https://cors-test-opal.vercel.app/api/scripttags",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        console.log(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("API 호출 중 오류 발생:", error);
-    }
-  }
-
-  if (window.location.pathname.includes("/")) {
-    const button = document.createElement("button");
-    button.textContent = "커스텀 기능";
-    button.onclick = async function () {
-      const result = await fetchData();
-      console.log("result", result);
-    };
-    document.body.appendChild(button);
-  }
-
   async function updateAPI(cateNo, period) {
     const response = await fetch(
       "https://cors-test-opal.vercel.app/api/categories/" + cateNo,
@@ -52,11 +18,13 @@
     );
 
     if (response.ok) {
-      console.log("API 호출 성공:", response);
-      window.location.href =
-        window.origin +
-        window.pathname +
-        `?cate_no=${cateNo}&sort_day=${period}#Product_ListMenu`;
+      let urlParams = new URLSearchParams(window.location.search);
+      urlParams.set("sort_day", period);
+      const newUrl = `${
+        window.location.pathname
+      }?${urlParams.toString()}#Product_ListMenu`;
+      window.history.pushState({}, "", newUrl);
+      location.reload();
     }
   }
 
