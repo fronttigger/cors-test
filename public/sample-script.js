@@ -18,13 +18,7 @@
     );
 
     if (response.ok) {
-      let urlParams = new URLSearchParams(window.location.search);
-      urlParams.set("sort_day", period);
-      const newUrl = `${
-        window.location.pathname
-      }?${urlParams.toString()}#Product_ListMenu`;
-      window.history.pushState({}, "", newUrl);
-      location.reload();
+      // location.reload();
     }
   }
 
