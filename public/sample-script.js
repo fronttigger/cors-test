@@ -1,25 +1,18 @@
 (function () {
   async function updateAPI(cateNo, period) {
-    const response = await fetch(
-      "https://cors-test-opal.vercel.app/api/categories/" + cateNo,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          shop_no: 1,
-          request: {
-            product_display_period: period,
-          },
-        }),
-        headers: {
-          "Content-Type": "application/json",
+    await fetch("https://cors-test-opal.vercel.app/api/categories/" + cateNo, {
+      method: "PUT",
+      body: JSON.stringify({
+        shop_no: 1,
+        request: {
+          product_display_period: period,
         },
-        credentials: "include",
-      }
-    );
-
-    if (response.ok) {
-      // location.reload();
-    }
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
   }
 
   var urlParams = new URLSearchParams(window.location.search);
