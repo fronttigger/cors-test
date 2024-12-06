@@ -19,7 +19,7 @@
   var cateNo = urlParams.get("cate_no");
   var sortDay = urlParams.get("sort_day");
 
-  if (cateNo !== "468") {
+  if (cateNo === "468") {
     var periodMap = {
       "1D": "1D",
       W: "W",
