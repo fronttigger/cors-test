@@ -10,18 +10,31 @@ const cookieOptions = {
   path: "/",
 };
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers":
-    "Content-Type, Authorization, X-Cafe24-Api-Version",
-  "Access-Control-Allow-Credentials": "true",
+const allowedOrigins = [
+  "https://medicals709.cafe24.com",
+  "https://medistorage.kr",
+  "https://m.medistorage.kr",
+];
+
+const getCorsHeaders = (origin: string | null) => {
+  return {
+    "Access-Control-Allow-Origin": allowedOrigins.includes(origin || "")
+      ? origin
+      : allowedOrigins[0],
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers":
+      "Content-Type, Authorization, X-Cafe24-Api-Version",
+    "Access-Control-Allow-Credentials": "true",
+  };
 };
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const origin = req.headers.get("origin");
+  const corsHeaders = getCorsHeaders(origin);
+
   try {
     const data = await req.json();
     const cookieStore = cookies();
@@ -41,22 +54,60 @@ export async function PUT(
         );
 
         const { access_token, refresh_token } = tokenResponse.data;
-
         accessToken = access_token;
 
-        cookieStore.set("access_token", access_token, {
-          ...cookieOptions,
-          maxAge: 6600, // 1시간 50분 (6600초) 동안 유효
+        // 응답 생성 전에 쿠키를 설정하기 위해 저장
+        const newCookies = {
+          access_token: {
+            value: access_token,
+            maxAge: 6600, // 1시간 50분
+          },
+          refresh_token: {
+            value: refresh_token,
+            maxAge: 14 * 24 * 60 * 60, // 2주
+          },
+        };
+
+        const response = await axios.put(
+          `https://medicals709.cafe24api.com/api/v2/admin/categories/${params.id}`,
+          data,
+          {
+            headers: {
+              "Content-Type": contentType,
+              Authorization: `Bearer ${accessToken}`,
+              "X-Cafe24-Api-Version": apiVersion,
+            },
+          }
+        );
+
+        const nextResponse = NextResponse.json(response.data, {
+          status: 200,
         });
-        cookieStore.set("refresh_token", refresh_token, {
-          ...cookieOptions,
-          maxAge: 14 * 24 * 60 * 60, // 2주 동안 유효
+
+        // CORS 헤더 설정
+        Object.entries(corsHeaders).forEach(([key, value]) => {
+          nextResponse.headers.set(key, value as string);
         });
+
+        // 쿠키 설정
+        Object.entries(newCookies).forEach(([name, { value, maxAge }]) => {
+          nextResponse.cookies.set(name, value, {
+            ...cookieOptions,
+            maxAge,
+          });
+        });
+
+        return nextResponse;
       } catch (error) {
         console.error("Failed to refresh access token:", error);
+        return NextResponse.json(
+          { error: "Failed to refresh access token" },
+          { status: 401 }
+        );
       }
     }
 
+    // 액세스 토큰이 있는 경우의 일반적인 요청 처리
     const response = await axios.put(
       `https://medicals709.cafe24api.com/api/v2/admin/categories/${params.id}`,
       data,
@@ -66,7 +117,6 @@ export async function PUT(
           Authorization: `Bearer ${accessToken}`,
           "X-Cafe24-Api-Version": apiVersion,
         },
-        withCredentials: true,
       }
     );
 
@@ -74,23 +124,37 @@ export async function PUT(
       status: 200,
     });
 
+    // CORS 헤더 설정
     Object.entries(corsHeaders).forEach(([key, value]) => {
-      nextResponse.headers.set(key, value);
+      nextResponse.headers.set(key, value as string);
     });
 
     return nextResponse;
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    console.error("API Error:", error);
+    if (axios.isAxiosError(error)) {
+      return NextResponse.json(
+        { error: error.response?.data || error.message },
+        { status: error.response?.status || 500 }
+      );
+    }
+    return NextResponse.json(
+      { error: "An unexpected error occurred" },
+      { status: 500 }
+    );
   }
 }
 
-export async function OPTIONS() {
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  const corsHeaders = getCorsHeaders(origin);
+
   const response = new NextResponse(null, {
     status: 204,
   });
 
   Object.entries(corsHeaders).forEach(([key, value]) => {
-    response.headers.set(key, value);
+    response.headers.set(key, value as string);
   });
 
   return response;
