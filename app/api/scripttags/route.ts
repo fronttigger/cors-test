@@ -11,7 +11,7 @@ const cookieOptions = {
 };
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "https://medicals709.cafe24.com",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers":
     "Content-Type, Authorization, X-Cafe24-Api-Version",

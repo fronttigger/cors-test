@@ -19,53 +19,55 @@
   var cateNo = urlParams.get("cate_no");
   var sortDay = urlParams.get("sort_day");
 
-  var periodMap = {
-    "1D": "1D",
-    W: "W",
-    "7D": "7D",
-    "1M": "1M",
-  };
+  if (cateNo !== "468") {
+    var periodMap = {
+      "1D": "1D",
+      W: "W",
+      "7D": "7D",
+      "1M": "1M",
+    };
 
-  var newOptions = [
-    { text: "실시간", value: "W" },
-    { text: "일간", value: "1D" },
-    { text: "주간", value: "7D" },
-    { text: "월간", value: "1M" },
-  ];
+    var newOptions = [
+      { text: "실시간", value: "W" },
+      { text: "일간", value: "1D" },
+      { text: "주간", value: "7D" },
+      { text: "월간", value: "1M" },
+    ];
 
-  $("#selArray").empty();
-  $("#selArray").append('<option value="">-정렬방식-</option>');
+    $("#selArray").empty();
+    $("#selArray").append('<option value="">-정렬방식-</option>');
 
-  $.each(newOptions, function (_, option) {
-    $("#selArray").append(
-      '<option data-sort="' +
-        option.value +
-        '"value="?cate_no=' +
-        cateNo +
-        "&sort_day=" +
-        option.value +
-        '#Product_ListMenu">' +
-        option.text +
-        "</option>"
-    );
-  });
+    $.each(newOptions, function (_, option) {
+      $("#selArray").append(
+        '<option data-sort="' +
+          option.value +
+          '"value="?cate_no=' +
+          cateNo +
+          "&sort_day=" +
+          option.value +
+          '#Product_ListMenu">' +
+          option.text +
+          "</option>"
+      );
+    });
 
-  if (sortDay && periodMap[sortDay]) {
-    $("#selArray").val(
-      "?cate_no=" + cateNo + "&sort_day=" + sortDay + "#Product_ListMenu"
-    );
+    if (sortDay && periodMap[sortDay]) {
+      $("#selArray").val(
+        "?cate_no=" + cateNo + "&sort_day=" + sortDay + "#Product_ListMenu"
+      );
 
-    updateAPI(cateNo, sortDay);
-  }
-
-  $("#selArray").on("change", function () {
-    var selectedValue = $(this).find("option:selected");
-    var period = selectedValue.data("sort");
-
-    if (cateNo) {
-      updateAPI(cateNo, period);
+      updateAPI(cateNo, sortDay);
     }
-  });
+
+    $("#selArray").on("change", function () {
+      var selectedValue = $(this).find("option:selected");
+      var period = selectedValue.data("sort");
+
+      if (cateNo) {
+        updateAPI(cateNo, period);
+      }
+    });
+  }
 })();
 // ;(function (CAFE24API) {
 //   CAFE24API.get('/api/v2/products/3', function (err, res) {
