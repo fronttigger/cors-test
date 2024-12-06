@@ -35,7 +35,7 @@
     ];
 
     $("#selArray").empty();
-    $("#selArray").append('<option value="">-정렬방식-</option>');
+    $("#selArray").append('<option value="">정렬방식</option>');
 
     $.each(newOptions, function (_, option) {
       $("#selArray").append(
